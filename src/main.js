@@ -1,3 +1,6 @@
+// global variables currently size of tile for ground subject to review
+const tileSize = 35;
+
 //Game Configuration
 let config = {
     type: Phaser.CANVAS,
@@ -13,7 +16,7 @@ let config = {
             }
         }
     },
-    scene: []
+    scene: [Test]
 }
 
 let game = new Phaser.Game(config);

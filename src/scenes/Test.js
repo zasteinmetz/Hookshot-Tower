@@ -10,10 +10,12 @@ class Test extends Phaser.Scene {
         // make immovable ground out of tiles
         this.ground = this.add.group();
         for(let i = 0; i < game.config.width; i += tileSize){
-            let groundTile = this.physics.add.sprite(i, game.config.height - tileSize, 'placeholder').setScale(0.5).setOrigin(0);
+            // leftover code from lecture .setScale(0.5)
+            let groundTile = this.physics.add.sprite(i, game.config.height - tileSize, 'placeholder').setOrigin(0);
             groundTile.body.immovable = true;
             groundTile.body.gravity = false;
             this.ground.add(groundTile);
         }
+        this.player = new Player(this, game.config.width/2, game.config.height/2, 'playerholder').setOrigin(0);
     }
 }

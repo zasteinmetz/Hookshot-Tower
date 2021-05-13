@@ -17,5 +17,7 @@ class Test extends Phaser.Scene {
             this.ground.add(groundTile);
         }
         this.player = new Player(this, game.config.width/2, game.config.height/2, 'playerholder').setOrigin(0);
+
+        this.physics.add.collider(this.player, this.ground);
     }
 }

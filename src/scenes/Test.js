@@ -20,10 +20,19 @@ class Test extends Phaser.Scene {
             this.ground.add(groundTile);
         }
         
-        this.time.delayedCall(500, () => {}, null, this);
+        this.platform = this.add.group();
+        for(let i = game.config.width/2 + tileSize; i < game.config.width; i += tileSize){
+            // leftover code from lecture .setScale(0.5)
+            let platformTile = this.physics.add.sprite(i, game.config.height/2, 'placeholder').setOrigin(0);
+            platformTile.body.immovable = true;
+            platformTile.body.allowGravity = false;
+            this.platform.add(platformTile);
+        }
+
         this.player = new Player(this, game.config.width/2, game.config.height/2, 'placeholder').setOrigin(0);
-        // basic collider no event just collides
+        // basic colliders no event just collides
         this.physics.add.collider(this.player, this.ground);
+        this.physics.add.collider(this.player, this.platform);
     
     }
 }

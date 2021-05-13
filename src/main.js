@@ -4,8 +4,8 @@ const tileSize = 35;
 //Game Configuration
 let config = {
     type: Phaser.CANVAS,
-    width : 1280,
-    height: 960,
+    width : 854,
+    height: 640,
     physics: {
         default: "arcade",
         arcade: {

@@ -2,6 +2,9 @@ class Test extends Phaser.Scene {
     constructor(){
         super("testScene");
     }
+    preload(){
+        this.load.image('placeholder', "assets/ObstacleOneCrate.png");
+    }
 
     create(){
         this.MAX_VELOCITY = 300;    //maximum velocity in pixils per second
@@ -13,11 +16,14 @@ class Test extends Phaser.Scene {
             // leftover code from lecture .setScale(0.5)
             let groundTile = this.physics.add.sprite(i, game.config.height - tileSize, 'placeholder').setOrigin(0);
             groundTile.body.immovable = true;
-            groundTile.body.gravity = false;
+            groundTile.body.allowGravity = false;
             this.ground.add(groundTile);
         }
-        this.player = new Player(this, game.config.width/2, game.config.height/2, 'playerholder').setOrigin(0);
-
+        
+        this.time.delayedCall(500, () => {}, null, this);
+        this.player = new Player(this, game.config.width/2, game.config.height/2, 'placeholder').setOrigin(0);
+        // basic collider no event just collides
         this.physics.add.collider(this.player, this.ground);
+    
     }
 }

@@ -23,7 +23,7 @@ class Test extends Phaser.Scene {
 
         
         //this.time.delayedCall(500, () => {}, null, this); What is this for?
-        this.player = new Player(this, 70, 160, 'player').setOrigin(0);
+        this.player = new Player(this, 70, 160, 300.0, 'player').setOrigin(0);
         this.player.collides = true;
         this.physics.add.collider(this.player, platforms);
 

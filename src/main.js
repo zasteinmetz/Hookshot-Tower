@@ -4,8 +4,8 @@ const tileSize = 35;
 //Game Configuration
 let config = {
     type: Phaser.CANVAS,
-    width : 854,
-    height: 640,
+    width : 640,
+    height: 480,
     physics: {
         default: "arcade",
         arcade: {
@@ -20,3 +20,5 @@ let config = {
 }
 
 let game = new Phaser.Game(config);
+
+let keyW, keyA, keyS, keyD;

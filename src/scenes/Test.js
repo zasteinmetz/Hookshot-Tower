@@ -11,7 +11,7 @@ class Test extends Phaser.Scene {
 
     create(){
         this.MAX_VELOCITY = 300;    //maximum velocity in pixels per second
-        this.physics.world.gravity.y = 1000;
+        this.physics.world.gravity.y = 800;
 
         const testMap = this.add.tilemap('testTilemap');
         const testTileset = testMap.addTilesetImage('TestTileset', 'testTiles');

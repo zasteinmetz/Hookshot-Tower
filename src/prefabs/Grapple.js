@@ -12,7 +12,7 @@ class Grapple extends Phaser.Physics.Arcade.Sprite {
 
         this.length = 200.0;
         this.minLength = 20.0;
-        this.maxLength = 200.0;
+        this.maxLength = this.player.ropeLength;
         this.newLine = this.scene.add.line(0,0,this.x,this.y,this.player.x,this.player.y, 0xff0000).setOrigin(0,0);
     }
     update() {

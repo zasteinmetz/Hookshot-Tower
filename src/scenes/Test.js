@@ -3,27 +3,93 @@ class Test extends Phaser.Scene {
         super("testScene");
     }
     preload(){
-        this.load.image('placeholder', "assets/ObstacleOneCrate.png");
+        this.load.image('placeholder', './assets/ObstacleOneCrate.png');
+        this.load.image('testTiles', './assets/TileSet.png');
+        this.load.image('player', './assets/obody.png');
+        this.load.tilemapTiledJSON('testTilemap','./assets/TestMap.json');
     }
 
     create(){
-        this.MAX_VELOCITY = 300;    //maximum velocity in pixils per second
+        this.MAX_VELOCITY = 300;    //maximum velocity in pixels per second
         this.physics.world.gravity.y = 1000;
 
-        // make immovable ground out of tiles
-        this.ground = this.add.group();
-        for(let i = 0; i < game.config.width; i += tileSize){
-            // leftover code from lecture .setScale(0.5)
-            let groundTile = this.physics.add.sprite(i, game.config.height - tileSize, 'placeholder').setOrigin(0);
-            groundTile.body.immovable = true;
-            groundTile.body.allowGravity = false;
-            this.ground.add(groundTile);
-        }
+        const testMap = this.add.tilemap('testTilemap');
+        const testTileset = testMap.addTilesetImage('TestTileset', 'testTiles');
+        const platforms = testMap.createLayer('Tile Layer 1', testTileset, 0, 0);
+        platforms.setCollisionByProperty({
+            collides: true
+        });
+        this.speed = 200.0;
+
         
-        this.time.delayedCall(500, () => {}, null, this);
-        this.player = new Player(this, game.config.width/2, game.config.height/2, 'placeholder').setOrigin(0);
-        // basic collider no event just collides
-        this.physics.add.collider(this.player, this.ground);
+        //this.time.delayedCall(500, () => {}, null, this); What is this for?
+        this.player = new Player(this, 70, 160, 'player').setOrigin(0);
+        this.player.collides = true;
+        this.physics.add.collider(this.player, platforms);
+
+        this.cameras.main.setBounds(0, 0, testMap.widthInPixels, testMap.heightInPixels);
+        this.cameras.main.startFollow(this.player, true, 0.25, 0.25);
+
+        keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+        keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+
+        this.grappleGroup = this.add.group();
+        this.grappleGroup.runChildUpdate = true;
+
+        this.input.on('pointerdown', function (pointer) {
+
+            console.log('down');
+            
+            if(Phaser.Math.Distance.Between(this.player.x, this.player.y, pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY) <= this.player.ropeLength) {
+                //createGrapple(pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY);
+                let grappleSpawn = new Grapple(this, this.player, pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY, 'placeholder', 0);
+                this.grappleGroup.add(grappleSpawn);
+
+            
+                this.input.on('pointerup', function (pointer) {
+                    grappleSpawn.destroy();
+                });
+            }
+            
+
+        }, this);
     
+    }
+
+    update(){
+        if (keyW.isDown && this.player.body.onFloor()) {
+            this.player.setVelocityY(-2.0 * this.speed);
+        } else if (keyS.isDown) {
+            this.player.setVelocityY(this.speed);
+            this.player.climbingUp = true;
+        }
+        if (keyW.isDown) {
+            this.player.climbing = true;
+        }
+        if (keyS.isUp) {
+            this.player.climbingUp = false;
+        }
+        if(keyW.isUp) {
+            this.player.climbing = false;
+        }
+        if(keyA.isDown) {
+            this.player.setVelocityX(-this.speed);
+        } else if (keyD.isDown) {
+            this.player.setVelocityX(this.speed);
+        } else {
+            this.player.setVelocityX(0.0);
+        }
+
+    }
+
+
+    // create functions
+
+    createGrapple(x, y) {
+        let grappleSpawn = new Grapple(this, x, y, 'placeholder', 0);
+        this.grappleGroup.add(grappleSpawn);
+        return grappleSpawn;
     }
 }

@@ -49,7 +49,9 @@ class Test extends Phaser.Scene {
 
             
                 this.input.on('pointerup', function (pointer) {
+                    //grappleSpawn.player.setVelocityY(-this.speed);
                     grappleSpawn.destroy();
+                    
                 });
             }
             

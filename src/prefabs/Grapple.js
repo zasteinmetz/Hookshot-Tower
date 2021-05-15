@@ -16,6 +16,7 @@ class Grapple extends Phaser.Physics.Arcade.Sprite {
         this.newLine = this.scene.add.line(0,0,this.x,this.y,this.player.x,this.player.y, 0xff0000).setOrigin(0,0);
     }
     update() {
+        //this.player.setVelocityY(0.0);
         this.oldLine = this.newLine;
         this.newLine = this.scene.add.line(0,0,this.x,this.y,this.player.x,this.player.y, 0xff0000).setOrigin(0,0);
         this.oldLine.destroy();
@@ -34,13 +35,13 @@ class Grapple extends Phaser.Physics.Arcade.Sprite {
         }
         if (this.player.climbing && this.length > this.minLength) {
             this.length -= this.speed;
-            console.log('up');
-            console.log(this.length);
+            //console.log('up');
+            //console.log(this.length);
         }
         if ( this.player.climbingUp && this.length < this.maxLength) {
             this.length += this.speed;
-            console.log('down');
-            console.log(this.length);
+            //console.log('down');
+            //console.log(this.length);
         }
     }
 }

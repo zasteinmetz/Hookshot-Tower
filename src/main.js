@@ -16,9 +16,12 @@ let config = {
             }
         }
     },
-    scene: [Test]
+    scene: [Menu, Test]
 }
 
 let game = new Phaser.Game(config);
 
 let keyW, keyA, keyS, keyD;
+let borderUISize = game.config.height/15;
+let borderPadding = borderUISize/3;
+let keyENTER;

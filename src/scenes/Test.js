@@ -7,6 +7,7 @@ class Test extends Phaser.Scene {
         this.load.image('testTiles', './assets/TileSet.png');
         this.load.image('player', './assets/obody.png');
         this.load.tilemapTiledJSON('testTilemap','./assets/TestMap.json');
+        this.load.audio('grapple','./assets/splat.wav');
     }
 
     create(){
@@ -44,6 +45,7 @@ class Test extends Phaser.Scene {
             
             if(Phaser.Math.Distance.Between(this.player.x, this.player.y, pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY) <= this.player.ropeLength) {
                 //createGrapple(pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY);
+                this.sound.add('grapple');
                 let grappleSpawn = new Grapple(this, this.player, pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY, 'placeholder', 0);
                 this.grappleGroup.add(grappleSpawn);
 

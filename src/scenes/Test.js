@@ -45,7 +45,7 @@ class Test extends Phaser.Scene {
             
             if(Phaser.Math.Distance.Between(this.player.x, this.player.y, pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY) <= this.player.ropeLength) {
                 //createGrapple(pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY);
-                this.sound.add('grapple');
+                this.sound.play('grapple');
                 let grappleSpawn = new Grapple(this, this.player, pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY, 'placeholder', 0);
                 this.grappleGroup.add(grappleSpawn);
 

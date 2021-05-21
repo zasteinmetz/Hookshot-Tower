@@ -23,10 +23,15 @@ class Test extends Phaser.Scene {
         this.speed = 200.0;
 
         
-        //this.time.delayedCall(500, () => {}, null, this); What is this for?
         this.player = new Player(this, 70, 160, 300.0, 'player').setOrigin(0);
         this.player.collides = true;
         this.physics.add.collider(this.player, platforms);
+        
+        this.bat01 = new Bat(this, 200, 100, '').setOrigin(0);
+        this.bat01.collides = true;
+        this.physics.add.collider(this.bat01, platforms, (obj1, obj2) => {
+            obj1.switchMovement();
+        });
 
         this.cameras.main.setBounds(0, 0, testMap.widthInPixels, testMap.heightInPixels);
         this.cameras.main.startFollow(this.player, true, 0.25, 0.25);
@@ -42,12 +47,15 @@ class Test extends Phaser.Scene {
         this.input.on('pointerdown', function (pointer) {
 
             console.log('down');
+            console.log('x: ' + pointer.x + ' y: ' + pointer.y);
+            
             
             if(Phaser.Math.Distance.Between(this.player.x, this.player.y, pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY) <= this.player.ropeLength) {
                 //createGrapple(pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY);
                 this.sound.play('grapple');
                 let grappleSpawn = new Grapple(this, this.player, pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY, 'placeholder', 0);
                 this.grappleGroup.add(grappleSpawn);
+                
 
             
                 this.input.on('pointerup', function (pointer) {
@@ -85,7 +93,6 @@ class Test extends Phaser.Scene {
         } else {
             this.player.setVelocityX(0.0);
         }
-
     }
 
 

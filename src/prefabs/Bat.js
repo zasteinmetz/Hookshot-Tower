@@ -14,12 +14,12 @@ class Bat extends Phaser.Physics.Arcade.Sprite {
     switchMovement(){
         if(this.moveingLeft == true){
             this.moveingLeft = false;
-            console.log('switch right');
+            //console.log('switch right');
             this.setVelocityX(this.speed);
         }
         else if(this.moveingLeft == false){
             this.moveingLeft = true;
-            console.log('switch left');
+            //console.log('switch left');
             this.setVelocityX(-this.speed);
         }
     }

@@ -10,6 +10,12 @@ class Bat extends Phaser.Physics.Arcade.Sprite {
         this.setVelocityX(-this.speed);
     }
     update() {
+        if(this.x < 0 ){
+            this.setVelocityX(this.speed);
+        }
+        else if( this.x > game.config.width - this.width){
+            this.setVelocityX(-this.speed);
+        }
     }
     switchMovement(){
         if(this.moveingLeft == true){

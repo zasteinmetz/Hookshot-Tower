@@ -48,19 +48,24 @@ class Test extends Phaser.Scene {
 
             console.log('down');
             console.log('x: ' + pointer.x + ' y: ' + pointer.y);
+            let success = false;
             
-            
-            if(Phaser.Math.Distance.Between(this.player.x, this.player.y, pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY) <= this.player.ropeLength) {
+            if((Phaser.Math.Distance.Between(this.player.x, this.player.y, pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY) <= this.player.ropeLength) && platforms.hasTileAtWorldXY(pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY, this.cameras.main, this.testMap   )) {
                 //createGrapple(pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY);
+                success = true;
                 this.sound.play('grapple');
-                let grappleSpawn = new Grapple(this, this.player, pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY, 'placeholder', 0);
+                let grappleSpawn = new Grapple(this, platforms, this.player, pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY, 'placeholder', 0);
                 this.grappleGroup.add(grappleSpawn);
+                this.player.grappling = true;
                 
 
             
                 this.input.on('pointerup', function (pointer) {
                     //grappleSpawn.player.setVelocityY(-this.speed);
+                    if(success)
+                        grappleSpawn.player.grappling = false;
                     grappleSpawn.destroy();
+                    
                     
                 });
             }
@@ -75,9 +80,10 @@ class Test extends Phaser.Scene {
             this.player.setVelocityY(-2.0 * this.speed);
         } else if (keyS.isDown) {
             this.player.setVelocityY(this.speed);
-            this.player.climbingUp = true;
+            if (this.player.grappling)
+                this.player.climbingUp = true;
         }
-        if (keyW.isDown) {
+        if (keyW.isDown && this.player.grappling) {
             this.player.climbing = true;
         }
         if (keyS.isUp) {
@@ -87,11 +93,23 @@ class Test extends Phaser.Scene {
             this.player.climbing = false;
         }
         if(keyA.isDown) {
-            this.player.setVelocityX(-this.speed);
+            if(!(!this.player.grappling && (this.player.swingLeft || this.player.swingRight))){
+                this.player.setVelocityX(-this.speed);
+            }
+            if(this.player.grappling)
+                this.player.swingLeft = true;
+            this.player.swingRight = false;
         } else if (keyD.isDown) {
-            this.player.setVelocityX(this.speed);
+            if(!(!this.player.grappling && (this.player.swingLeft || this.player.swingRight))){
+                this.player.setVelocityX(this.speed);
+            }
+            this.player.swingLeft = false;
+            if(this.player.grappling)
+                this.player.swingRight = true;
         } else {
-            this.player.setVelocityX(0.0);
+            this.player.setVelocityX(this.player.body.velocity.x/1.1);
+            this.player.swingLeft = false;
+            this.player.swingRight = false;
         }
     }
 

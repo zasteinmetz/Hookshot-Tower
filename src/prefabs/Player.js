@@ -6,8 +6,11 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this);
         this.body.allowGravity = true;
         this.setCollideWorldBounds = true;
+        this.grappling = false;
         this.climbing = false;
         this.climbingUp = false;
+        this.swingLeft = false;
+        this.swingRight = false;
         this.ropeLength = length;
     }
     update() {

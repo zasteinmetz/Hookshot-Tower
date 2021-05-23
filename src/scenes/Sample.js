@@ -37,6 +37,7 @@ class Sample extends Phaser.Scene {
         });
 
         this.cameras.main.setBounds(0, 0, sampleMap.widthInPixels, sampleMap.heightInPixels);
+        this.cameras.main.setZoom(1.5);
         this.cameras.main.startFollow(this.player, true, 0.25, 0.25);
 
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -98,14 +99,14 @@ class Sample extends Phaser.Scene {
         }
         if(keyA.isDown) {
             if(!(!this.player.grappling && (this.player.swingLeft || this.player.swingRight))){
-                this.player.setVelocityX(-this.speed);
+                this.player.setVelocityX(-this.speed );
             }
             if(this.player.grappling)
                 this.player.swingLeft = true;
             this.player.swingRight = false;
         } else if (keyD.isDown) {
             if(!(!this.player.grappling && (this.player.swingLeft || this.player.swingRight))){
-                this.player.setVelocityX(this.speed);
+                this.player.setVelocityX(this.speed );
             }
             this.player.swingLeft = false;
             if(this.player.grappling)

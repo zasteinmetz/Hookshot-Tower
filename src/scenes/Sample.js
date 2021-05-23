@@ -4,8 +4,7 @@ class Sample extends Phaser.Scene {
     }
     preload(){
         this.load.image('placeholder', './assets/ObstacleOneCrate.png');
-        this.load.image('sampleTiles', "./assets/TowerSpritesheet.png");
-        this.load.image('sampleTiles', "./assets/TowerSpritesheet.tsx");
+        this.load.image('towerTileset', "./assets/tilesheet2.png");
         this.load.image('player', './assets/obody.png');
         this.load.tilemapTiledJSON('sampleTileMap',"./assets/sampleTileMap.json");
         this.load.audio('grapple','./assets/splat.wav');
@@ -16,20 +15,23 @@ class Sample extends Phaser.Scene {
         this.physics.world.gravity.y = 800;
 
         const sampleMap = this.add.tilemap('sampleTileMap');
-        const sampleTileset = sampleMap.addTilesetImage("TowerSpritesheet", 'sampleTiles');
+        const sampleTileset = sampleMap.addTilesetImage("TowerTileset", 'towerTileset');
         const platforms = sampleMap.createLayer('Tile Layer 1', sampleTileset, 0, 0);
         platforms.setCollisionByProperty({
-            collides: true
+            collides: true,
+            damages: false
         });
         this.speed = 200.0;
 
         
-        this.player = new Player(this, 180, 0, 300.0, 'player').setOrigin(0);
+        this.player = new Player(this, 180, game.config.height * 2 - 32, 300.0, 'player').setOrigin(0);
         this.player.collides = true;
+        //this.player.damages = true;
         this.physics.add.collider(this.player, platforms);
         
         this.bat01 = new Bat(this, 200, 100, '').setOrigin(0);
         this.bat01.collides = true;
+        //this.bat01.damages = true;
         this.physics.add.collider(this.bat01, platforms, (obj1, obj2) => {
             obj1.switchMovement();
         });
@@ -49,19 +51,24 @@ class Sample extends Phaser.Scene {
 
             console.log('down');
             console.log('x: ' + pointer.x + ' y: ' + pointer.y);
+            let success = false;
             
-            
-            if(Phaser.Math.Distance.Between(this.player.x, this.player.y, pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY) <= this.player.ropeLength) {
+            if((Phaser.Math.Distance.Between(this.player.x, this.player.y, pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY) <= this.player.ropeLength) && platforms.hasTileAtWorldXY(pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY, this.cameras.main, this.testMap   )) {
                 //createGrapple(pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY);
+                success = true;
                 this.sound.play('grapple');
-                let grappleSpawn = new Grapple(this, this.player, pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY, 'placeholder', 0);
+                let grappleSpawn = new Grapple(this, platforms, this.player, pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY, 'placeholder', 0);
                 this.grappleGroup.add(grappleSpawn);
+                this.player.grappling = true;
                 
 
             
                 this.input.on('pointerup', function (pointer) {
                     //grappleSpawn.player.setVelocityY(-this.speed);
+                    if(success)
+                        grappleSpawn.player.grappling = false;
                     grappleSpawn.destroy();
+                    
                     
                 });
             }
@@ -77,9 +84,10 @@ class Sample extends Phaser.Scene {
             this.player.setVelocityY(-2.0 * this.speed);
         } else if (keyS.isDown) {
             this.player.setVelocityY(this.speed);
-            this.player.climbingUp = true;
+            if (this.player.grappling)
+                this.player.climbingUp = true;
         }
-        if (keyW.isDown) {
+        if (keyW.isDown && this.player.grappling) {
             this.player.climbing = true;
         }
         if (keyS.isUp) {
@@ -89,11 +97,23 @@ class Sample extends Phaser.Scene {
             this.player.climbing = false;
         }
         if(keyA.isDown) {
-            this.player.setVelocityX(-this.speed);
+            if(!(!this.player.grappling && (this.player.swingLeft || this.player.swingRight))){
+                this.player.setVelocityX(-this.speed);
+            }
+            if(this.player.grappling)
+                this.player.swingLeft = true;
+            this.player.swingRight = false;
         } else if (keyD.isDown) {
-            this.player.setVelocityX(this.speed);
+            if(!(!this.player.grappling && (this.player.swingLeft || this.player.swingRight))){
+                this.player.setVelocityX(this.speed);
+            }
+            this.player.swingLeft = false;
+            if(this.player.grappling)
+                this.player.swingRight = true;
         } else {
-            this.player.setVelocityX(0.0);
+            this.player.setVelocityX(this.player.body.velocity.x/1.1);
+            this.player.swingLeft = false;
+            this.player.swingRight = false;
         }
     }
 

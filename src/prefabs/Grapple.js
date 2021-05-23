@@ -68,7 +68,7 @@ class Grapple extends Phaser.Physics.Arcade.Sprite {
             //console.log(this.length);
         }
         
-
+        // problem area
         if ( this.player.body.velocity.y > this.maxFallSpeed) {
             this.player.setVelocityY(this.maxFallSpeed)
             

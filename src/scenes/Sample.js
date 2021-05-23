@@ -24,7 +24,7 @@ class Sample extends Phaser.Scene {
         this.speed = 200.0;
 
         
-        this.player = new Player(this, 180, game.config.height * 2 - 32, 300.0, 'player').setOrigin(0);
+        this.player = new Player(this, 180, game.config.height * 2 - 32, 200.0, 'player').setOrigin(0);
         this.player.collides = true;
         //this.player.damages = true;
         this.physics.add.collider(this.player, platforms);
@@ -99,14 +99,14 @@ class Sample extends Phaser.Scene {
         }
         if(keyA.isDown) {
             if(!(!this.player.grappling && (this.player.swingLeft || this.player.swingRight))){
-                this.player.setVelocityX(-this.speed );
+                this.player.setVelocityX(-this.speed * 0.75);
             }
             if(this.player.grappling)
                 this.player.swingLeft = true;
             this.player.swingRight = false;
         } else if (keyD.isDown) {
             if(!(!this.player.grappling && (this.player.swingLeft || this.player.swingRight))){
-                this.player.setVelocityX(this.speed );
+                this.player.setVelocityX(this.speed * 0.75);
             }
             this.player.swingLeft = false;
             if(this.player.grappling)

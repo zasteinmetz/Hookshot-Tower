@@ -76,6 +76,7 @@ class Test extends Phaser.Scene {
     }
 
     update(){
+        this.bat01.update();
         if (keyW.isDown && this.player.body.onFloor()) {
             this.player.setVelocityY(-2.0 * this.speed);
         } else if (keyS.isDown) {

@@ -13,7 +13,7 @@ class Sample extends Phaser.Scene {
 
     create(){
         this.MAX_VELOCITY = 300;    //maximum velocity in pixels per second
-        this.physics.world.gravity.y = 200;
+        this.physics.world.gravity.y = 800;
 
         const sampleMap = this.add.tilemap('sampleTileMap');
         const sampleTileset = sampleMap.addTilesetImage("TowerSpritesheet", 'sampleTiles');
@@ -72,6 +72,7 @@ class Sample extends Phaser.Scene {
     }
 
     update(){
+        this.bat01.update();
         if (keyW.isDown && this.player.body.onFloor()) {
             this.player.setVelocityY(-2.0 * this.speed);
         } else if (keyS.isDown) {

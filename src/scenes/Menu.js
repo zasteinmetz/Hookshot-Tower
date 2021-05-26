@@ -1,0 +1,59 @@
+class Menu extends Phaser.Scene{
+    constructor(){
+        super("menuScene");
+    }
+
+    preload(){
+        this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
+   }
+
+   create(){
+    var halfw = game.config.width/2;
+    var halfh = game.config.height/2;
+    // Google WebFont or whatever
+    var add = this.add;
+    var inp = this.input;
+    
+     // menu text configuration
+     let menuConfig = {
+        fontFamily: 'Courier',
+        fontSize: '35px',
+        
+        align: 'right',
+        padding: {
+            top: 5,
+            bottom: 5,
+        },
+        fixedWidth: 0
+    }
+    
+    //this.add.text(game.config.width/2, halfh - (borderUISize + borderPadding), 'Endless Runner', menuConfig).setOrigin(0.5);
+    this.add.text(halfw, halfh + (borderUISize + borderPadding), 'HookShot Tower', menuConfig).setOrigin(0.5);
+    this.add.text(halfw, halfh + (borderUISize + borderPadding) + 100, 'ENTER TO START', menuConfig).setOrigin(0.5);
+    // define keys
+    keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+
+
+    
+    WebFont.load({
+        google: {
+            families: ['Bahianita']
+
+        },
+        active: function()
+        {
+            add.text(16, 0, 'The face of the\nmoon was in\nshadow.', { fontFamily: 'Bahianita', fontSize: 80, color: '#ffffff' }).setShadow(2, 2, "#333333", 2, false, true);
+        }
+    })
+
+
+
+   }
+
+   update(){
+    if(Phaser.Input.Keyboard.JustDown(keyENTER)) {
+        //this.scene.start('testScene');
+        this.scene.start('sampleScene');
+        }
+    }
+}

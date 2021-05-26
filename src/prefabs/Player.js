@@ -5,7 +5,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this); 
         scene.physics.add.existing(this);
         this.body.allowGravity = true;
-        this.setCollideWorldBounds = true;
+        this.body.collideWorldBounds = true;
         this.grappling = false;
         this.climbing = false;
         this.climbingUp = false;

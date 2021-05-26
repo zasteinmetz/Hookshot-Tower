@@ -1,22 +1,21 @@
-class Sample extends Phaser.Scene {
+class Level1 extends Phaser.Scene {
     constructor(){
-        super("sampleScene");
+        super("level1Scene");
     }
     preload(){
         this.load.image('placeholder', './assets/ObstacleOneCrate.png');
         this.load.image('towerTileset', "./assets/tilesheet2.png");
         this.load.image('player', './assets/obody.png');
-        this.load.tilemapTiledJSON('sampleTileMap',"./assets/sampleTileMap.json");
+        this.load.tilemapTiledJSON('Level1TileMap',"./assets/Level1.json");
         this.load.audio('grapple','./assets/splat.wav');
     }
-
     create(){
         this.MAX_VELOCITY = 300;    //maximum velocity in pixels per second
         this.physics.world.gravity.y = 800;
 
-        const sampleMap = this.add.tilemap('sampleTileMap');
-        const sampleTileset = sampleMap.addTilesetImage("TowerTileset", 'towerTileset');
-        const platforms = sampleMap.createLayer('Tile Layer 1', sampleTileset, 0, 0);
+        const level1Map = this.add.tilemap('Level1TileMap');
+        const towerTiles = level1Map.addTilesetImage("tilesheet2", 'towerTileset');
+        const platforms = level1Map.createLayer('Tile Layer 1', towerTiles, 0, 0);
         platforms.setCollisionByProperty({
             collides: true,
             damages: false
@@ -24,7 +23,7 @@ class Sample extends Phaser.Scene {
         this.speed = 200.0;
 
         
-        this.player = new Player(this, 180, game.config.height * 2 - 32, 200.0, 'player').setOrigin(0);
+        this.player = new Player(this, 180, game.config.height * 2 - 64, 200.0, 'player').setOrigin(0);
         this.player.collides = true;
         //this.player.damages = true;
         this.physics.add.collider(this.player, platforms);
@@ -36,7 +35,7 @@ class Sample extends Phaser.Scene {
             obj1.switchMovement();
         });
 
-        this.cameras.main.setBounds(0, 0, sampleMap.widthInPixels, sampleMap.heightInPixels);
+        this.cameras.main.setBounds(0, 0, level1Map.widthInPixels, level1Map.heightInPixels);
        
         this.cameras.main.startFollow(this.player, true, 0.25, 0.25);
 

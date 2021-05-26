@@ -40,6 +40,7 @@ class Menu extends Phaser.Scene{
     if(Phaser.Input.Keyboard.JustDown(keyENTER)) {
         //this.scene.start('testScene');
         this.scene.start('sampleScene');
+        //this.scene.start('level1Scene');
         }
     }
 }

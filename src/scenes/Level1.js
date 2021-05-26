@@ -36,7 +36,7 @@ class Level1 extends Phaser.Scene {
         });
 
         this.cameras.main.setBounds(0, 0, level1Map.widthInPixels, level1Map.heightInPixels);
-       
+        //this.cameras.main.setZoom(1.75);
         this.cameras.main.startFollow(this.player, true, 0.25, 0.25);
 
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -52,12 +52,14 @@ class Level1 extends Phaser.Scene {
             console.log('down');
             console.log('x: ' + pointer.x + ' y: ' + pointer.y);
             let success = false;
-            
-            if((Phaser.Math.Distance.Between(this.player.x, this.player.y, pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY) <= this.player.ropeLength) && platforms.hasTileAtWorldXY(pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY, this.cameras.main, this.testMap   )) {
+            //console.log(Phaser.Math.Distance.Between(this.player.x, this.player.y, pointer.x + this.cameras.main.scrollX , pointer.y + this.cameras.main.scrollY) <= this.player.ropeLength);
+            //console.log(platforms.hasTileAtWorldXY(pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY , this.cameras.main, this.level1Map));
+            if((Phaser.Math.Distance.Between(this.player.x, this.player.y, pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY) <= this.player.ropeLength) && platforms.hasTileAtWorldXY(pointer.x + this.cameras.main.scrollX , pointer.y + this.cameras.main.scrollY, this.cameras.main, this.level1Map   )) {
                 //createGrapple(pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY);
                 success = true;
+                console.log("Works");
                 this.sound.play('grapple');
-                let grappleSpawn = new Grapple(this, platforms, this.player, pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY, 'placeholder', 0);
+                let grappleSpawn = new Grapple(this, platforms, this.player, pointer.x + (this.cameras.main.scrollX), pointer.y + (this.cameras.main.scrollY), 'placeholder', 0);
                 this.grappleGroup.add(grappleSpawn);
                 this.player.grappling = true;
                 

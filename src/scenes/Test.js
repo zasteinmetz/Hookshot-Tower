@@ -34,7 +34,9 @@ class Test extends Phaser.Scene {
         });
 
         this.cameras.main.setBounds(0, 0, testMap.widthInPixels, testMap.heightInPixels);
+        this.cameras.main.zoom = 1;
         this.cameras.main.startFollow(this.player, true, 0.25, 0.25);
+        
 
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);

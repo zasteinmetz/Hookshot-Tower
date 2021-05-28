@@ -37,7 +37,7 @@ class Sample extends Phaser.Scene {
         });
 
         this.cameras.main.setBounds(0, 0, sampleMap.widthInPixels, sampleMap.heightInPixels);
-       
+        this.cameras.main.zoom = 1.0;
         this.cameras.main.startFollow(this.player, true, 0.25, 0.25);
 
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);

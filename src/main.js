@@ -21,6 +21,8 @@ let config = {
 
 let game = new Phaser.Game(config);
 
+let oneFirstTime = false;
+
 let keyW, keyA, keyS, keyD;
 let borderUISize = game.config.height/15;
 let borderPadding = borderUISize/3;

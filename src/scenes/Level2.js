@@ -3,7 +3,6 @@ class Level2 extends Phaser.Scene {
         super("level2Scene");
     }
     preload(){
-        console.log("The Next Level");
         this.load.image('placeholder', './assets/ObstacleOneCrate.png');
         this.load.image('towerTileset', "./assets/tilesheet2.png");
         this.load.image('player', './assets/obody.png');
@@ -38,12 +37,30 @@ class Level2 extends Phaser.Scene {
         this.physics.add.collider(this.player, spikes,  (obj1, obj2) => {
             this.scene.start("gameOverScene")
         });
-        
-        this.bat01 = new Bat(this, 200, 100, '').setOrigin(0);
+
+        this.batGroup = this.add.group({
+            runChildUpdate: true     // updates to each child
+        });
+
+        this.bat01 = new Bat(this, 200, 14 * 32, '').setOrigin(0);
         this.bat01.collides = true;
-        //this.bat01.damages = true;
+        this.batGroup.add(this.bat01);
+        // Bat collider to switch movement
         this.physics.add.collider(this.bat01, platforms, (obj1, obj2) => {
             obj1.switchMovement();
+        });
+
+        this.bat02 = new Bat(this, 200, 24 * 32, '').setOrigin(0);
+        this.bat02.collides = true;
+        this.batGroup.add(this.bat02);
+        // Bat collider to switch movement
+        this.physics.add.collider(this.bat02, platforms, (obj1, obj2) => {
+            obj1.switchMovement();
+        });
+
+        // Player collider with Bat group
+        this.physics.add.collider(this.player, this.batGroup, (obj1, obj2) => {
+            this.scene.start("gameOverScene")
         });
 
         this.cameras.main.setBounds(0, 0, level2Map.widthInPixels, level2Map.heightInPixels);
@@ -90,7 +107,10 @@ class Level2 extends Phaser.Scene {
     }
 
     update(){
-        this.bat01.update();
+        if (this.player.y >= 30 * 32){
+            this.scene.start("level1Scene");
+        }
+
         if (keyW.isDown && this.player.body.onFloor()) {
             this.player.setVelocityY(-2.0 * this.speed);
         } else if (keyS.isDown) {

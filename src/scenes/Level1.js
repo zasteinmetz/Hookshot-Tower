@@ -22,18 +22,14 @@ class Level1 extends Phaser.Scene {
         });
         this.speed = 200.0;
 
-        
         this.player = new Player(this, 180, game.config.height * 2 - 64, 200.0, 'player').setOrigin(0);
         this.player.collides = true;
         //this.player.damages = true;
         this.physics.add.collider(this.player, platforms);
-        
-        this.bat01 = new Bat(this, 200, 100, '').setOrigin(0);
-        this.bat01.collides = true;
-        //this.bat01.damages = true;
-        this.physics.add.collider(this.bat01, platforms, (obj1, obj2) => {
-            obj1.switchMovement();
-        });
+        if (oneFirstTime == true){
+            this.player.y = 32;
+            this.player.x = 26 * 32;
+        }
 
         this.cameras.main.setBounds(0, 0, level1Map.widthInPixels, level1Map.heightInPixels);
         //this.cameras.main.setZoom(1.75);
@@ -81,7 +77,11 @@ class Level1 extends Phaser.Scene {
     }
 
     update(){
-        this.bat01.update();
+        if (this.player.y <= 0 ){
+            this.scene.start("level2Scene");
+            oneFirstTime = true;
+        }
+
         if (keyW.isDown && this.player.body.onFloor()) {
             this.player.setVelocityY(-2.0 * this.speed);
         } else if (keyS.isDown) {

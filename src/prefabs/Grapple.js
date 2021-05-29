@@ -54,7 +54,7 @@ class Grapple extends Phaser.Physics.Arcade.Sprite {
                 blocked = false;
             } else {
                 blocked = true;
-                this.player.setVelocityY(0.0);
+                this.player.setVelocityY(this.player.body.velocity.y/1.1);
             }
         }
         if (!blocked && this.player.climbing && this.length > this.minLength) {

@@ -16,7 +16,7 @@ let config = {
             }
         }
     },
-    scale: {
+        scale: {
         mode: Phaser.Scale.NONE,
         autoCenter: Phaser.Scale.CENTER_BOTH,
         width: 640,

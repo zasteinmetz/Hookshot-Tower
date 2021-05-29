@@ -64,7 +64,7 @@ class Level2 extends Phaser.Scene {
         });
 
         this.cameras.main.setBounds(0, 0, level2Map.widthInPixels, level2Map.heightInPixels);
-        //this.cameras.main.setZoom(1.75);
+        //this.cameras.main.zoom = 1.75;
         this.cameras.main.startFollow(this.player, true, 0.25, 0.25);
 
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);

@@ -32,6 +32,9 @@ let game = new Phaser.Game(config);
 // through first level for first time
 let oneFirstTime;
 
+// immune function for damage
+let immune = false;
+
 let keyW, keyA, keyS, keyD;
 let borderUISize = game.config.height/15;
 let borderPadding = borderUISize/3;

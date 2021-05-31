@@ -40,6 +40,8 @@ class Level1 extends Phaser.Scene {
         //this.cameras.main.setZoom(1.75);
         this.cameras.main.startFollow(this.player, true, 0.25, 0.25);
 
+
+
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
@@ -131,5 +133,11 @@ class Level1 extends Phaser.Scene {
         let grappleSpawn = new Grapple(this, x, y, 'placeholder', 0);
         this.grappleGroup.add(grappleSpawn);
         return grappleSpawn;
+    }
+
+    createHearts(){
+        if(health >= 2){}
+        else if(health >= 4){}
+        else if(health >= 6){}
     }
 }

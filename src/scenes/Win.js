@@ -1,6 +1,6 @@
-class GameOver extends Phaser.Scene{
+class Win extends Phaser.Scene{
     constructor(){
-        super("gameOverScene");
+        super("winScene");
     }
 
     preload(){
@@ -26,7 +26,7 @@ class GameOver extends Phaser.Scene{
         fixedWidth: 0
     }
     
-    this.add.text(game.config.width/2, game.config.height/2 + (borderUISize + borderPadding) + 100, 'ENTER TO CONTINUE', menuConfig).setOrigin(0.5);
+    this.add.text(game.config.width/2, game.config.height/2 + (borderUISize + borderPadding) + 100, 'ENTER TO GO TO MENU', menuConfig).setOrigin(0.5);
     // define keys
     keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
@@ -39,7 +39,7 @@ class GameOver extends Phaser.Scene{
         },
         active: function()
         {
-            add.text(game.config.width/8 * 3 - 16, game.config.height/8 * 3, 'GameOver', { fontFamily: 'Bahianita', fontSize: 80, color: '#ffffff' }).setShadow(2, 2, "#333333", 2, false, true);
+            add.text(game.config.width/8 * 3 - 16, game.config.height/8 * 3, 'You Win!', { fontFamily: 'Bahianita', fontSize: 80, color: '#ffffff' }).setShadow(2, 2, "#333333", 2, false, true);
         }
     })
 
@@ -49,9 +49,7 @@ class GameOver extends Phaser.Scene{
 
    update(){
     if(Phaser.Input.Keyboard.JustDown(keyENTER)) {
-        //this.scene.start('testScene');
-        //this.scene.start('sampleScene');
-        this.scene.start("level2Scene");
+        this.scene.start("menuScene");
         }
     }
 }

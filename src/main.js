@@ -15,15 +15,15 @@ let config = {
                 y: 0
             }
         }
-    },
+    },/*
         scale: {
         mode: Phaser.Scale.NONE,
         autoCenter: Phaser.Scale.CENTER_BOTH,
         width: 640,
         height: 480,
         zoom: 2
-    },
-    scene: [GameOver, Menu, Sample, Level1, Level2, Test]
+    },*/
+    scene: [Menu, Sample, Level1, GameOver, Level2, Win, Test]
 }
 
 let game = new Phaser.Game(config);

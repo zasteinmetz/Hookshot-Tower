@@ -5,13 +5,16 @@ class Menu extends Phaser.Scene{
 
     preload(){
         this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
+        this.load.image('background', "./assets/prototitle2_.jpg");
    }
 
    create(){
+       // add background
+       this.background = this.add.tileSprite(0, 0, 640, 480, 'background').setOrigin(0, 0);
 
-    // Google WebFont or whatever
-    var add = this.add;
-    var inp = this.input;
+       // Google WebFont or whatever
+       var add = this.add;
+       var inp = this.input;
     
      // menu text configuration
      let menuConfig = {

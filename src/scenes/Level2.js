@@ -110,7 +110,10 @@ class Level2 extends Phaser.Scene {
         if (this.player.y >= 30 * 32){
             this.scene.start("level1Scene");
         }
-
+        if (this.player.y <= 0 ){
+            this.scene.start("winScene");
+        }
+    
         if (keyW.isDown && this.player.body.onFloor()) {
             this.player.setVelocityY(-2.0 * this.speed);
         } else if (keyS.isDown) {

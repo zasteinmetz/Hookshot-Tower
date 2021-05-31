@@ -13,6 +13,7 @@ class Level1 extends Phaser.Scene {
         this.MAX_VELOCITY = 300;    //maximum velocity in pixels per second
         this.physics.world.gravity.y = 800;
 
+        // add tilemap
         const level1Map = this.add.tilemap('Level1TileMap');
         const towerTiles = level1Map.addTilesetImage("tilesheet2", 'towerTileset');
         const platforms = level1Map.createLayer('Tile Layer 1', towerTiles, 0, 0);
@@ -21,6 +22,10 @@ class Level1 extends Phaser.Scene {
             damages: false
         });
         this.speed = 200.0;
+
+        //Add explanatory text
+        this.firstNote = this.add.text( (6 * 32), (game.config.height * 2) - (4 * 32), 'WASD to move', "28px").setOrigin(0.5);
+        this.secondNote = this.add.text( (game.config.width * 2) - (16 * 32), (game.config.height * 2) - (13 * 32), 'Click to grapple', "28px").setOrigin(0.5);
 
         this.player = new Player(this, 180, game.config.height * 2 - 64, 200.0, 'player').setOrigin(0);
         this.player.collides = true;

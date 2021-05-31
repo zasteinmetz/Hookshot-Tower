@@ -6,6 +6,7 @@ class Level1 extends Phaser.Scene {
         this.load.image('placeholder', './assets/ObstacleOneCrate.png');
         this.load.image('towerTileset', "./assets/tilesheet2.png");
         this.load.image('player', './assets/obody.png');
+        this.load.image('hearts', "./assets/hearttexture.png");
         this.load.tilemapTiledJSON('Level1TileMap',"./assets/Level1.json");
         this.load.audio('grapple','./assets/splat.wav');
     }
@@ -40,7 +41,7 @@ class Level1 extends Phaser.Scene {
         //this.cameras.main.setZoom(1.75);
         this.cameras.main.startFollow(this.player, true, 0.25, 0.25);
 
-
+        this.createHearts();
 
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -135,9 +136,16 @@ class Level1 extends Phaser.Scene {
         return grappleSpawn;
     }
 
-    createHearts(){
-        if(health >= 2){}
-        else if(health >= 4){}
-        else if(health >= 6){}
-    }
+    /*createHearts(){
+        if(health >= 2){
+            //14*32
+            this.heart01 = this.add.sprite((2 * 32), (game.config.height * 2) - (4 * 32), 'hearts');
+        }
+        if(health >= 4){
+            this.heart02 = this.add.sprite((4 * 32), (game.config.height * 2) - (4 * 32), 'hearts');
+        }
+        if(health >= 6){
+            this.heart03 = this.add.sprite((6 * 32), (game.config.height * 2) - (4 * 32), 'hearts');
+        }
+    }*/
 }

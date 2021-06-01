@@ -38,10 +38,10 @@ class Level2 extends Phaser.Scene {
         //spike collison added immunity so couldn't be hit multiple times
         this.physics.add.collider(this.player, spikes,  (obj1, obj2) => {
             if(immune == false){
+                this.scene.resume("healthUI");
                 health -= 2;
                 immune = true;
                 console.log("spike hit");
-                this.scene.resume("healthUI");
                 this.time.delayedCall(3000, () => {
                     this.scene.pause("healthUI");
                     immune = false;
@@ -73,11 +73,11 @@ class Level2 extends Phaser.Scene {
         // Player collider with Bat group added immunity so couldn't be hit multiple times
         this.physics.add.collider(this.player, this.batGroup, (obj1, obj2) => {
             if(immune == false){
+                this.scene.resume("healthUI");
                 health--;
                 immune = true;
                 obj2.switchMovement();
                 console.log("bat hit");
-                this.scene.resume("healthUI");
                 this.time.delayedCall(3000, () => {
                     this.scene.pause("healthUI");
                     immune = false;
@@ -126,12 +126,14 @@ class Level2 extends Phaser.Scene {
             
 
         }, this);
+        this.scene.pause("healthUI");
     }
 
     update(){
         if(health <= 0){
-            this.scene.start("gameOverScene");
             this.scene.sleep("healthUI");
+            health += 6
+            this.scene.start("gameOverScene");
         }
 
         if (this.player.y >= 30 * 32){

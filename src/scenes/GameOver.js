@@ -8,7 +8,7 @@ class GameOver extends Phaser.Scene{
    }
 
    create(){
-
+    console.log(health + " health");
     // Google WebFont or whatever
     var add = this.add;
     var inp = this.input;
@@ -49,8 +49,9 @@ class GameOver extends Phaser.Scene{
 
    update(){
     if(Phaser.Input.Keyboard.JustDown(keyENTER)) {
+        this.scene.wake("healthUI");
         //resets boolean and health variables for fresh restart
-        health = 6;
+        //health += 6;
         this.scene.start("level2Scene");
         }
     }

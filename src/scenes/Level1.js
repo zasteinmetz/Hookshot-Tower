@@ -10,6 +10,7 @@ class Level1 extends Phaser.Scene {
         this.load.audio('grapple','./assets/splat.wav');
     }
     create(){
+        this.scene.pause("healthUI");
         this.MAX_VELOCITY = 300;    //maximum velocity in pixels per second
         this.physics.world.gravity.y = 800;
 

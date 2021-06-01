@@ -11,15 +11,25 @@ class HealthUI extends Phaser.Scene{
     }
 
     update(){
+        if(health == 6){
+            this.reset();
+        }
         if(health <= 0){
-            this.heart01.destroy();
+            this.heart01.alpha = 0;
         }
         if(health <= 2){
-            this.heart02.destroy();
+            this.heart02.alpha = 0;
         }
         if(health <= 4){
-            this.heart03.destroy();
+            this.heart03.alpha = 0;
         }
+    }
+
+    reset(){
+        console.log("I see you");
+        this.heart01.alpha = 1;
+        this.heart02.alpha = 1;
+        this.heart03.alpha = 1;
     }
 
     createHearts(){

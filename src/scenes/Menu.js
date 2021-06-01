@@ -60,11 +60,11 @@ class Menu extends Phaser.Scene{
        if(Phaser.Input.Keyboard.JustDown(keyENTER)) {
         //this.scene.start('testScene');
         //this.scene.start('sampleScene');
-        this.scene.wake("healthUI");
+        this.scene.launch("healthUI");
         //resets boolean and health variables for fresh restart
         oneFirstTime = false;
         health = 6;
-        this.scene.start("level2Scene");
+        this.scene.start("level1Scene");
         }
         if(Phaser.Input.Keyboard.JustDown(keyC)) {
             this.scene.start('creditsScene');

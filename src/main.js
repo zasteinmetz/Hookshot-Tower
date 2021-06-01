@@ -23,7 +23,7 @@ let config = {
         height: 480,
         zoom: 2
     },*/
-    scene: [Menu, Sample, Level1, GameOver, Credits, Level2, Win, Test]
+    scene: [Menu, Sample, Level1, HealthUI, GameOver, Credits, Level2, Win, Test]
 }
 
 let game = new Phaser.Game(config);
@@ -40,4 +40,4 @@ let borderUISize = game.config.height/15;
 let borderPadding = borderUISize/3;
 let keyENTER;
 let keyC;
-let health;
+let health = 6;

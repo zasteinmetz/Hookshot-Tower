@@ -9,6 +9,8 @@ class Menu extends Phaser.Scene{
    }
 
    create(){
+    this.scene.launch("healthUI");
+    this.scene.sleep("healthUI");
        // add background
        this.background = this.add.tileSprite(0, 0, 640, 480, 'background').setOrigin(0, 0);
 
@@ -58,6 +60,7 @@ class Menu extends Phaser.Scene{
        if(Phaser.Input.Keyboard.JustDown(keyENTER)) {
         //this.scene.start('testScene');
         //this.scene.start('sampleScene');
+        this.scene.wake("healthUI");
         //resets boolean and health variables for fresh restart
         oneFirstTime = false;
         health = 6;

@@ -6,7 +6,6 @@ class Level2 extends Phaser.Scene {
         this.load.image('placeholder', './assets/ObstacleOneCrate.png');
         this.load.image('towerTileset', "./assets/tilesheet2.png");
         this.load.image('player', './assets/obody.png');
-        this.load.image('hearts', "./assets/hearttexture.png");
         this.load.image("bat", "./assets/battexure.png");
         this.load.tilemapTiledJSON('Level2TileMap',"./assets/Level2.json");
         this.load.audio('grapple','./assets/splat.wav');
@@ -42,7 +41,9 @@ class Level2 extends Phaser.Scene {
                 health -= 2;
                 immune = true;
                 console.log("spike hit");
+                this.scene.resume("healthUI");
                 this.time.delayedCall(3000, () => {
+                    this.scene.pause("healthUI");
                     immune = false;
                     console.log("spike hitable");
                 }, null, this);
@@ -76,7 +77,9 @@ class Level2 extends Phaser.Scene {
                 immune = true;
                 obj2.switchMovement();
                 console.log("bat hit");
+                this.scene.resume("healthUI");
                 this.time.delayedCall(3000, () => {
+                    this.scene.pause("healthUI");
                     immune = false;
                     console.log("bat hitable");
                 }, null, this);
@@ -123,12 +126,12 @@ class Level2 extends Phaser.Scene {
             
 
         }, this);
-    
     }
 
     update(){
         if(health <= 0){
             this.scene.start("gameOverScene");
+            this.scene.sleep("healthUI");
         }
 
         if (this.player.y >= 30 * 32){
@@ -136,6 +139,7 @@ class Level2 extends Phaser.Scene {
         }
         if (this.player.y <= 0 ){
             this.scene.start("winScene");
+            this.scene.sleep("healthUI");
         }
     
         if (keyW.isDown && this.player.body.onFloor()) {

@@ -14,17 +14,19 @@ class Grapple extends Phaser.Physics.Arcade.Sprite {
         this.swingLeftMax = ((5.0 * Math.PI) / 6.0);
         this.swingRightMax = ((13.0 * Math.PI) / 6.0);
         this.maxFallSpeed = 400.0;
+        this.angle = -45;
 
         this.radSlope = 0.0;
         this.length = 200.0;
         this.minLength = 20.0;
         this.maxLength = this.player.ropeLength;
-        this.newLine = this.scene.add.line(0,0,this.x,this.y,this.player.x,this.player.y, 0xff0000).setOrigin(0,0);
+        this.newLine = this.scene.add.line(0,0,this.x,this.y,this.player.x+this.player.width*0.5,this.player.y, 0xcabca5).setOrigin(0,0);
     }
     update() {
         //this.player.setVelocityY(0.0);
         this.oldLine = this.newLine;
-        this.newLine = this.scene.add.line(0,0,this.x,this.y,this.player.x,this.player.y, 0xff0000).setOrigin(0,0);
+        this.newLine = this.scene.add.line(0,0,this.x,this.y,this.player.x+this.player.width*0.5,this.player.y, 0xcabca5).setOrigin(0,0);
+        this.newLine.setLineWidth(2);
         this.oldLine.destroy();
         let blocked = false;
         
@@ -73,5 +75,10 @@ class Grapple extends Phaser.Physics.Arcade.Sprite {
             this.player.setVelocityY(this.maxFallSpeed)
             
         }
+    }
+
+    destruct() {
+        this.newLine.destroy();
+        this.destroy();
     }
 }

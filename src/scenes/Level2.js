@@ -118,7 +118,7 @@ class Level2 extends Phaser.Scene {
                     //grappleSpawn.player.setVelocityY(-this.speed);
                     if(success)
                         grappleSpawn.player.grappling = false;
-                    grappleSpawn.destroy();
+                    grappleSpawn.destruct();
                     
                     
                 });

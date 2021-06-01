@@ -49,8 +49,8 @@ class GameOver extends Phaser.Scene{
 
    update(){
     if(Phaser.Input.Keyboard.JustDown(keyENTER)) {
-        //this.scene.start('testScene');
-        //this.scene.start('sampleScene');
+        //resets boolean and health variables for fresh restart
+        health = 6;
         this.scene.start("level2Scene");
         }
     }

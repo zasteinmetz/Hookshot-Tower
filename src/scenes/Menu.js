@@ -9,6 +9,8 @@ class Menu extends Phaser.Scene{
    }
 
    create(){
+    this.scene.launch("healthUI");
+    this.scene.sleep("healthUI");
        // add background
        this.background = this.add.tileSprite(0, 0, 640, 480, 'background').setOrigin(0, 0);
 
@@ -28,12 +30,14 @@ class Menu extends Phaser.Scene{
         },
         fixedWidth: 0
     }
-    
-    //this.add.text(game.config.width/2, game.config.height/2 - (borderUISize + borderPadding), 'Endless Runner', menuConfig).setOrigin(0.5);
-    //this.add.text(game.config.width/2, game.config.height/2 + (borderUISize + borderPadding), 'HookShot Tower', menuConfig).setOrigin(0.5);
+
+    //Add menu text
     this.add.text(game.config.width/2, game.config.height/2 + (borderUISize + borderPadding) + 100, 'ENTER TO START', menuConfig).setOrigin(0.5);
+    this.add.text(game.config.width/2, game.config.height/2 + (borderUISize + borderPadding) + 150, 'C FOR CREDITS', menuConfig).setOrigin(0.5);
+
     // define keys
     keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+    keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
 
 
     
@@ -53,10 +57,17 @@ class Menu extends Phaser.Scene{
    }
 
    update(){
-    if(Phaser.Input.Keyboard.JustDown(keyENTER)) {
+       if(Phaser.Input.Keyboard.JustDown(keyENTER)) {
         //this.scene.start('testScene');
         //this.scene.start('sampleScene');
-        this.scene.start("level1Scene");
+        this.scene.wake("healthUI");
+        //resets boolean and health variables for fresh restart
+        oneFirstTime = false;
+        health = 6;
+        this.scene.start("level2Scene");
         }
+        if(Phaser.Input.Keyboard.JustDown(keyC)) {
+            this.scene.start('creditsScene');
+            }
     }
 }

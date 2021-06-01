@@ -6,6 +6,7 @@ class Level2 extends Phaser.Scene {
         this.load.image('placeholder', './assets/ObstacleOneCrate.png');
         this.load.image('towerTileset', "./assets/tilesheet2.png");
         this.load.image('player', './assets/obody.png');
+        this.load.image("bat", "./assets/battexure.png");
         this.load.tilemapTiledJSON('Level2TileMap',"./assets/Level2.json");
         this.load.audio('grapple','./assets/splat.wav');
     }
@@ -34,15 +35,26 @@ class Level2 extends Phaser.Scene {
         this.player.collides = true;
         //this.player.damages = true;
         this.physics.add.collider(this.player, platforms);
+        //spike collison added immunity so couldn't be hit multiple times
         this.physics.add.collider(this.player, spikes,  (obj1, obj2) => {
-            this.scene.start("gameOverScene")
+            if(immune == false){
+                health -= 2;
+                immune = true;
+                console.log("spike hit");
+                this.scene.resume("healthUI");
+                this.time.delayedCall(3000, () => {
+                    this.scene.pause("healthUI");
+                    immune = false;
+                    console.log("spike hitable");
+                }, null, this);
+            }
         });
 
         this.batGroup = this.add.group({
             runChildUpdate: true     // updates to each child
         });
 
-        this.bat01 = new Bat(this, 200, 14 * 32, '').setOrigin(0);
+        this.bat01 = new Bat(this, 200, 14 * 32, 'bat').setOrigin(0);
         this.bat01.collides = true;
         this.batGroup.add(this.bat01);
         // Bat collider to switch movement
@@ -50,7 +62,7 @@ class Level2 extends Phaser.Scene {
             obj1.switchMovement();
         });
 
-        this.bat02 = new Bat(this, 200, 24 * 32, '').setOrigin(0);
+        this.bat02 = new Bat(this, 200, 24 * 32, 'bat').setOrigin(0);
         this.bat02.collides = true;
         this.batGroup.add(this.bat02);
         // Bat collider to switch movement
@@ -58,9 +70,20 @@ class Level2 extends Phaser.Scene {
             obj1.switchMovement();
         });
 
-        // Player collider with Bat group
+        // Player collider with Bat group added immunity so couldn't be hit multiple times
         this.physics.add.collider(this.player, this.batGroup, (obj1, obj2) => {
-            this.scene.start("gameOverScene")
+            if(immune == false){
+                health--;
+                immune = true;
+                obj2.switchMovement();
+                console.log("bat hit");
+                this.scene.resume("healthUI");
+                this.time.delayedCall(3000, () => {
+                    this.scene.pause("healthUI");
+                    immune = false;
+                    console.log("bat hitable");
+                }, null, this);
+            }
         });
 
         this.cameras.main.setBounds(0, 0, level2Map.widthInPixels, level2Map.heightInPixels);
@@ -103,15 +126,20 @@ class Level2 extends Phaser.Scene {
             
 
         }, this);
-    
     }
 
     update(){
+        if(health <= 0){
+            this.scene.start("gameOverScene");
+            this.scene.sleep("healthUI");
+        }
+
         if (this.player.y >= 30 * 32){
             this.scene.start("level1Scene");
         }
         if (this.player.y <= 0 ){
             this.scene.start("winScene");
+            this.scene.sleep("healthUI");
         }
     
         if (keyW.isDown && this.player.body.onFloor()) {

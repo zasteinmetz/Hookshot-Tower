@@ -23,14 +23,21 @@ let config = {
         height: 480,
         zoom: 2
     },*/
-    scene: [Menu, Sample, Level1, GameOver, Level2, Win, Test]
+    scene: [Menu, Sample, Level1, HealthUI, GameOver, Credits, Level2, Win, Test]
 }
 
 let game = new Phaser.Game(config);
 
-let oneFirstTime = false;
+// Boolean value for whether or not player has passed 
+// through first level for first time
+let oneFirstTime;
+
+// immune function for damage
+let immune = false;
 
 let keyW, keyA, keyS, keyD;
 let borderUISize = game.config.height/15;
 let borderPadding = borderUISize/3;
 let keyENTER;
+let keyC;
+let health = 6;

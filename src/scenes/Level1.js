@@ -3,7 +3,7 @@ class Level1 extends Phaser.Scene {
         super("level1Scene");
     }
     preload(){
-        this.load.image('placeholder', './assets/ObstacleOneCrate.png');
+        this.load.image('placeholder', './assets/Grapple.png');
         this.load.image('towerTileset', "./assets/tilesheet2.png");
         this.load.image('player', './assets/obody.png');
         this.load.tilemapTiledJSON('Level1TileMap',"./assets/Level1.json");
@@ -34,7 +34,7 @@ class Level1 extends Phaser.Scene {
         this.physics.add.collider(this.player, platforms);
         if (oneFirstTime == true){
             this.player.y = 32;
-            this.player.x = 26 * 32;
+            this.player.x = 29 * 32;
         }
 
         this.cameras.main.setBounds(0, 0, level1Map.widthInPixels, level1Map.heightInPixels);
@@ -71,7 +71,7 @@ class Level1 extends Phaser.Scene {
                     //grappleSpawn.player.setVelocityY(-this.speed);
                     if(success)
                         grappleSpawn.player.grappling = false;
-                    grappleSpawn.destroy();
+                    grappleSpawn.destruct();
                     
                     
                 });
@@ -87,7 +87,7 @@ class Level1 extends Phaser.Scene {
             this.scene.start("level2Scene");
             oneFirstTime = true;
         }
-
+        
         if (keyW.isDown && this.player.body.onFloor()) {
             this.player.setVelocityY(-2.0 * this.speed);
         } else if (keyS.isDown) {

@@ -1,3 +1,7 @@
+//Ethan Jung, Zackary Steinmetz, 
+//Alexander Barclay, Gabrielle Velasco
+
+
 // global variables currently size of tile for ground subject to review
 const tileSize = 35;
 
@@ -40,4 +44,5 @@ let borderUISize = game.config.height/15;
 let borderPadding = borderUISize/3;
 let keyENTER;
 let keyC;
+// Health variable for managing health UI
 let health = 6;

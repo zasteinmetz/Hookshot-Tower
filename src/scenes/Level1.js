@@ -1,4 +1,5 @@
 class Level1 extends Phaser.Scene {
+    // first complete level without obstacles so they can play with grapple
     constructor(){
         super("level1Scene");
     }
@@ -24,7 +25,7 @@ class Level1 extends Phaser.Scene {
         });
         this.speed = 200.0;
 
-        //Add explanatory text
+        //Add explanatory text to teach mechanics
         this.firstNote = this.add.text( (6 * 32), (game.config.height * 2) - (4 * 32), 'WASD to move', "28px").setOrigin(0.5);
         this.secondNote = this.add.text( (game.config.width * 2) - (16 * 32), (game.config.height * 2) - (13 * 32), 'Click to grapple', "28px").setOrigin(0.5);
 

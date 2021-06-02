@@ -15,14 +15,14 @@ let config = {
                 y: 0
             }
         }
-    },/*
+    },
         scale: {
         mode: Phaser.Scale.NONE,
         autoCenter: Phaser.Scale.CENTER_BOTH,
         width: 640,
         height: 480,
         zoom: 2
-    },*/
+    },
     scene: [Menu, Sample, Level1, HealthUI, GameOver, Credits, Level2, Win, Test]
 }
 

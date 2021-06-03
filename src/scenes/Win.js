@@ -1,4 +1,5 @@
 class Win extends Phaser.Scene{
+    //Ending Win scene using same font code from menu
     constructor(){
         super("winScene");
     }

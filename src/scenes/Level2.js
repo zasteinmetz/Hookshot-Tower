@@ -1,4 +1,5 @@
 class Level2 extends Phaser.Scene {
+    // Second complete level
     constructor(){
         super("level2Scene");
     }
@@ -50,10 +51,12 @@ class Level2 extends Phaser.Scene {
             }
         });
 
+        // Make group for bat collisions
         this.batGroup = this.add.group({
             runChildUpdate: true     // updates to each child
         });
 
+        // Make bat objects that turn when they collide with a platform
         this.bat01 = new Bat(this, 200, 14 * 32, 'bat').setOrigin(0);
         this.bat01.collides = true;
         this.batGroup.add(this.bat01);

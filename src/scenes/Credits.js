@@ -1,4 +1,5 @@
 class Credits extends Phaser.Scene{
+    //Credits Scene based on menu font
     constructor(){
         super("creditsScene");
     }
@@ -52,6 +53,7 @@ class Credits extends Phaser.Scene{
        //Cause the background to slowly move down thought it was a cool effect 
        //but not sure if worth keeping
        //this.background.tilePositionY -= 1;
+       
     if(Phaser.Input.Keyboard.JustDown(keyC)) {
             this.scene.start('menuScene');
             }

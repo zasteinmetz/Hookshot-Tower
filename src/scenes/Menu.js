@@ -1,4 +1,5 @@
 class Menu extends Phaser.Scene{
+    // Menu scene with special font
     constructor(){
         super("menuScene");
     }
@@ -9,6 +10,7 @@ class Menu extends Phaser.Scene{
    }
 
    create(){
+    //Starts concurrent Health UI Scene and immediately sets it to sleep
     this.scene.launch("healthUI");
     this.scene.sleep("healthUI");
        // add background
@@ -60,7 +62,9 @@ class Menu extends Phaser.Scene{
        if(Phaser.Input.Keyboard.JustDown(keyENTER)) {
         //this.scene.start('testScene');
         //this.scene.start('sampleScene');
-        this.scene.launch("healthUI");
+
+        //Wakes UI scene
+        this.scene.wake("healthUI");
         //resets boolean and health variables for fresh restart
         oneFirstTime = false;
         health = 6;

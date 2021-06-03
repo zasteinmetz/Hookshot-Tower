@@ -1,4 +1,5 @@
 class Sample extends Phaser.Scene {
+    //Sample map with final tilesets (not in final game)
     constructor(){
         super("sampleScene");
     }

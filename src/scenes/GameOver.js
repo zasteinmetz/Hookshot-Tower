@@ -1,4 +1,5 @@
 class GameOver extends Phaser.Scene{
+    // Gameover screen using Menu fonts
     constructor(){
         super("gameOverScene");
     }
@@ -50,8 +51,6 @@ class GameOver extends Phaser.Scene{
    update(){
     if(Phaser.Input.Keyboard.JustDown(keyENTER)) {
         this.scene.wake("healthUI");
-        //resets boolean and health variables for fresh restart
-        //health += 6;
         this.scene.start("level2Scene");
         }
     }

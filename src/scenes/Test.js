@@ -1,4 +1,5 @@
 class Test extends Phaser.Scene {
+    //Test map with old improperly scaled assets (not in final game)
     constructor(){
         super("testScene");
     }

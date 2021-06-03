@@ -1,4 +1,5 @@
 class HealthUI extends Phaser.Scene{
+    // Player Health UI based on seperate health variable in Main
     constructor(){
         super("healthUI");
     }
@@ -6,32 +7,37 @@ class HealthUI extends Phaser.Scene{
         this.load.image('hearts', "./assets/hearttexture.png");
     }
     create(){
-        console.log("Hello");
         this.createHearts();
     }
 
     update(){
+        //reset health on restart
         if(health == 6){
             this.reset();
         }
         if(health <= 0){
+            // make health 1 invisable after going below 0
             this.heart01.alpha = 0;
         }
         if(health <= 2){
+            // make health 2 invisable after going below 2
             this.heart02.alpha = 0;
         }
         if(health <= 4){
+            // make health 3 invisable after going below 4
             this.heart03.alpha = 0;
         }
     }
 
     reset(){
+        //make hearts visable again
         console.log("I see you");
         this.heart01.alpha = 1;
         this.heart02.alpha = 1;
         this.heart03.alpha = 1;
     }
 
+    //Player create function which might be a little unnecessary all things considered
     createHearts(){
         if(health >= 2){
             console.log("first");

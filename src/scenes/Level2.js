@@ -135,7 +135,7 @@ class Level2 extends Phaser.Scene {
     update(){
         if(health <= 0){
             this.scene.sleep("healthUI");
-            health += 6
+            health = 7;
             this.scene.start("gameOverScene");
         }
 

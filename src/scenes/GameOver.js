@@ -50,7 +50,7 @@ class GameOver extends Phaser.Scene{
 
    update(){
     if(Phaser.Input.Keyboard.JustDown(keyENTER)) {
-        this.scene.wake("healthUI");
+        this.scene.launch("healthUI");
         health = 7;
         this.scene.start("level2Scene");
         }

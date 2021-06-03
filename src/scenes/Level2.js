@@ -40,10 +40,10 @@ class Level2 extends Phaser.Scene {
         this.physics.add.collider(this.player, spikes,  (obj1, obj2) => {
             if(immune == false){
                 this.scene.resume("healthUI");
-                health -= 2;
                 immune = true;
+                health -= 2;
                 console.log("spike hit");
-                this.time.delayedCall(3000, () => {
+                this.time.delayedCall(1500, () => {
                     this.scene.pause("healthUI");
                     immune = false;
                     console.log("spike hitable");
@@ -73,15 +73,31 @@ class Level2 extends Phaser.Scene {
             obj1.switchMovement();
         });
 
+        this.bat03 = new Bat(this, (game.config.width * 2) - (32 * 2) , 9 * 32, 'bat').setOrigin(0);
+        this.bat03.collides = true;
+        this.batGroup.add(this.bat03);
+        // Bat collider to switch movement
+        this.physics.add.collider(this.bat03, platforms, (obj1, obj2) => {
+            obj1.switchMovement();
+        });
+
+        this.bat04 = new Bat(this, (game.config.width) - (5 * 32), 6 * 32, 'bat').setOrigin(0);
+        this.bat04.collides = true;
+        this.batGroup.add(this.bat04);
+        // Bat collider to switch movement
+        this.physics.add.collider(this.bat04, platforms, (obj1, obj2) => {
+            obj1.switchMovement();
+        }); 
+
         // Player collider with Bat group added immunity so couldn't be hit multiple times
         this.physics.add.collider(this.player, this.batGroup, (obj1, obj2) => {
             if(immune == false){
                 this.scene.resume("healthUI");
-                health--;
                 immune = true;
+                health--;
                 obj2.switchMovement();
                 console.log("bat hit");
-                this.time.delayedCall(3000, () => {
+                this.time.delayedCall(1500, () => {
                     this.scene.pause("healthUI");
                     immune = false;
                     console.log("bat hitable");
@@ -90,7 +106,7 @@ class Level2 extends Phaser.Scene {
         });
 
         this.cameras.main.setBounds(0, 0, level2Map.widthInPixels, level2Map.heightInPixels);
-        //this.cameras.main.zoom = 1.75;
+        //this.cameras.main.zoom = 0.5;
         this.cameras.main.startFollow(this.player, true, 0.25, 0.25);
 
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -129,12 +145,14 @@ class Level2 extends Phaser.Scene {
             
 
         }, this);
+        console.log("Health = " + health);
         this.scene.pause("healthUI");
+        console.log("Health = " + health)
     }
 
     update(){
         if(health <= 0){
-            this.scene.sleep("healthUI");
+            this.scene.stop("healthUI");
             health = 7;
             this.scene.start("gameOverScene");
         }
@@ -144,7 +162,7 @@ class Level2 extends Phaser.Scene {
         }
         if (this.player.y <= 0 ){
             this.scene.start("winScene");
-            this.scene.sleep("healthUI");
+            this.scene.stop("healthUI");
         }
     
         if (keyW.isDown && this.player.body.onFloor()) {

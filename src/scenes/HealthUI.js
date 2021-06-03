@@ -14,7 +14,7 @@ class HealthUI extends Phaser.Scene{
         //reset health on restart
         if(health == 7){
             this.reset();
-            health - 1;
+            health -= 1;
         }
         if(health <= 0){
             // make health 1 invisable after going below 0

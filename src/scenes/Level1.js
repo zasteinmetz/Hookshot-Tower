@@ -9,11 +9,17 @@ class Level1 extends Phaser.Scene {
         this.load.image('player', './assets/obody.png');
         this.load.tilemapTiledJSON('Level1TileMap',"./assets/Level1.json");
         this.load.audio('grapple','./assets/splat.wav');
+        this.load.audio('background_music','./assets/2021-03-07_-_Haunted_Memories_-_David_Fesliyan.mp3');
+
     }
     create(){
         this.scene.pause("healthUI");
         this.MAX_VELOCITY = 300;    //maximum velocity in pixels per second
         this.physics.world.gravity.y = 800;
+
+        back_music = this.sound.add('background_music');
+        back_music.loop = true;
+        back_music.play();
 
         // add tilemap
         const level1Map = this.add.tilemap('Level1TileMap');
@@ -85,6 +91,7 @@ class Level1 extends Phaser.Scene {
 
     update(){
         if (this.player.y <= 0 ){
+            back_music.stop();
             this.scene.start("level2Scene");
             oneFirstTime = true;
         }

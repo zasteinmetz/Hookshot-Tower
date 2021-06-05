@@ -25,7 +25,7 @@ let config = {
         autoCenter: Phaser.Scale.CENTER_BOTH,
         width: 640,
         height: 480,
-        zoom: 2
+        zoom: 1.5
     },
     scene: [Menu, Sample, Level1, HealthUI, GameOver, Credits, Level2, Win, Test]
 }
@@ -38,6 +38,8 @@ let oneFirstTime;
 
 // immune function for damage
 let immune = false;
+
+let back_music;
 
 let keyW, keyA, keyS, keyD;
 let borderUISize = game.config.height/15;

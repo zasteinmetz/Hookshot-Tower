@@ -10,10 +10,16 @@ class Level2 extends Phaser.Scene {
         this.load.image("bat", "./assets/battexure.png");
         this.load.tilemapTiledJSON('Level2TileMap',"./assets/Level2.json");
         this.load.audio('grapple','./assets/splat.wav');
+        this.load.audio('background_music','./assets/2021-03-07_-_Haunted_Memories_-_David_Fesliyan.mp3');
+
     }
     create(){
         this.MAX_VELOCITY = 300;    //maximum velocity in pixels per second
         this.physics.world.gravity.y = 800;
+
+        back_music = this.sound.add('background_music');
+        back_music.loop = true;
+        back_music.play();
 
         const level2Map = this.add.tilemap('Level2TileMap');
         const towerTiles = level2Map.addTilesetImage("tilesheet2", 'towerTileset');
@@ -136,13 +142,16 @@ class Level2 extends Phaser.Scene {
         if(health <= 0){
             this.scene.sleep("healthUI");
             health = 7;
+            back_music.stop();
             this.scene.start("gameOverScene");
         }
 
         if (this.player.y >= 30 * 32){
+            back_music.stop();
             this.scene.start("level1Scene");
         }
         if (this.player.y <= 0 ){
+            back_music.stop();
             this.scene.start("winScene");
             this.scene.sleep("healthUI");
         }

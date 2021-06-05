@@ -3,10 +3,11 @@ class Level2 extends Phaser.Scene {
         super("level2Scene");
     }
     preload(){
-        this.load.image('placeholder', './assets/ObstacleOneCrate.png');
+        this.load.image('placeholder', './assets/Grapple.png');
         this.load.image('towerTileset', "./assets/tilesheet2.png");
         this.load.image('player', './assets/obody.png');
         this.load.image("bat", "./assets/battexure.png");
+        this.load.image("block", "./assets/brick.png");
         this.load.tilemapTiledJSON('Level2TileMap',"./assets/Level2.json");
         this.load.audio('grapple','./assets/splat.wav');
     }
@@ -50,6 +51,26 @@ class Level2 extends Phaser.Scene {
             }
         });
 
+        this.blockGroup = this.add.group({
+            runChildUpdate: true
+        });
+        /*
+        this.testBlock = new Block(this, 2 * game.config.width - 224, game.config.height * 2 - 96, "block").setOrigin(0);
+        this.testBlock.collides = true;
+        this.blockGroup.add(this.testBlock);
+
+        this.physics.add.collider(this.testBlock, platforms);
+
+        this.physics.add.collider(this.testBlock, this.player, (block) => {
+            this.time.delayedCall(3000, () => {
+                this.testBlock.fall();
+            }, null, this);
+            this.time.delayedCall(6000, () => {
+                this.testBlock.destroy();
+            }, null, this);
+        });
+        */
+       this.createBlock(this, platforms, 2 * game.config.width - 224, game.config.height * 2 - 96);
         this.batGroup = this.add.group({
             runChildUpdate: true     // updates to each child
         });
@@ -103,7 +124,7 @@ class Level2 extends Phaser.Scene {
             console.log('down');
             console.log('x: ' + pointer.x + ' y: ' + pointer.y);
             let success = false;
-            if((Phaser.Math.Distance.Between(this.player.x, this.player.y, pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY) <= this.player.ropeLength) && platforms.hasTileAtWorldXY(pointer.x + this.cameras.main.scrollX , pointer.y + this.cameras.main.scrollY, this.cameras.main, this.level2Map   )) {
+            if((Phaser.Math.Distance.Between(this.player.x, this.player.y, pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY) <= this.player.ropeLength) && platforms.hasTileAtWorldXY(pointer.x + this.cameras.main.scrollX , pointer.y + this.cameras.main.scrollY, this.cameras.main, this.level2Map) || this.blockAt(this.blockGroup, pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY) != null) {
                 //createGrapple(pointer.x + this.cameras.main.scrollX, pointer.y + this.cameras.main.scrollY);
                 success = true;
                 console.log("Works");
@@ -183,6 +204,32 @@ class Level2 extends Phaser.Scene {
 
 
     // create functions
+
+    createBlock(scene,layer,x,y) {
+        scene.testBlock = new Block(this, x, y, "block").setOrigin(0);
+        scene.testBlock.collides = true;
+        scene.blockGroup.add(scene.testBlock);
+
+        scene.physics.add.collider(scene.testBlock, layer);
+
+        scene.physics.add.collider(scene.testBlock, scene.player, (block) => {
+            scene.time.delayedCall(3000, () => {
+                scene.testBlock.fall();
+            }, null, scene);
+            scene.time.delayedCall(6000, () => {
+                scene.testBlock.destroy();
+            }, null, scene);
+        });
+    }
+
+    blockAt(group, x, y) {
+        var blocks = group.getMatching('visible', true);
+        for(var i = 0; i < blocks.length; i++) {
+            if(blocks[i].x - blocks[i].width/2 <= x <= blocks[i].x + blocks[i].width/2 && blocks[i].y - blocks[i].height/2 <= y <= blocks[i].y + blocks[i].height/2)
+                return blocks[i];
+        }
+        return null;
+    }
 
     createGrapple(x, y) {
         let grappleSpawn = new Grapple(this, x, y, 'placeholder', 0);

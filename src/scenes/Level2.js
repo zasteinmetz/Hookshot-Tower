@@ -4,10 +4,10 @@ class Level2 extends Phaser.Scene {
         super("level2Scene");
     }
     preload(){
-        this.load.image('placeholder', './assets/ObstacleOneCrate.png');
+        this.load.image('placeholder', './assets/Grapple.png');
         this.load.image('towerTileset', "./assets/tilesheet2.png");
         this.load.image('player', './assets/obody.png');
-        this.load.image("bat", "./assets/battexure.png");
+        this.load.atlas("bat", "./assets/battexture.png","./assets/battexture.json");
         this.load.tilemapTiledJSON('Level2TileMap',"./assets/Level2.json");
         this.load.audio('grapple','./assets/splat.wav');
         this.load.audio('snap','./assets/plunk.wav');
@@ -22,6 +22,19 @@ class Level2 extends Phaser.Scene {
         back_music = this.sound.add('background_music');
         back_music.loop = true;
         back_music.play();
+
+        this.anims.create({
+            key: 'fly',
+            frames: this.anims.generateFrameNames("bat", {
+                prefix: "bat",
+                suffix: ".png",
+                start: 1,
+                end: 3,
+                zeroPad: 1
+            }), 
+            repeat: -1,
+            yoyo: true,
+        });
 
         const level2Map = this.add.tilemap('Level2TileMap');
         const towerTiles = level2Map.addTilesetImage("tilesheet2", 'towerTileset');
@@ -65,7 +78,7 @@ class Level2 extends Phaser.Scene {
         });
 
         // Make bat objects that turn when they collide with a platform
-        this.bat01 = new Bat(this, 200, 14 * 32, 'bat').setOrigin(0);
+        this.bat01 = new Bat(this, 200, 14 * 32, 'bat').play('fly');
         this.bat01.collides = true;
         this.batGroup.add(this.bat01);
         // Bat collider to switch movement
@@ -73,7 +86,7 @@ class Level2 extends Phaser.Scene {
             obj1.switchMovement();
         });
 
-        this.bat02 = new Bat(this, 200, 24 * 32, 'bat').setOrigin(0);
+        this.bat02 = new Bat(this, 200, 24 * 32, 'bat').play('fly');
         this.bat02.collides = true;
         this.batGroup.add(this.bat02);
         // Bat collider to switch movement

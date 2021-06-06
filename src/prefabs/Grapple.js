@@ -113,6 +113,7 @@ class Grapple extends Phaser.Physics.Arcade.Sprite {
         if(this.blocked) {
             this.tension += 1;
             if(this.tension > 100) {
+                this.scene.sound.play('snap');
                 this.destruct();
             }
         } else {

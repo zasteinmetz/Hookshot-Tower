@@ -9,6 +9,7 @@ class Level1 extends Phaser.Scene {
         this.load.image('player', './assets/obody.png');
         this.load.tilemapTiledJSON('Level1TileMap',"./assets/Level1.json");
         this.load.audio('grapple','./assets/splat.wav');
+        this.load.audio('snap','./assets/plunk.wav');
         this.load.audio('background_music','./assets/2021-03-07_-_Haunted_Memories_-_David_Fesliyan.mp3');
 
     }
@@ -79,6 +80,7 @@ class Level1 extends Phaser.Scene {
                     if(success)
                         this.player.grappling = false;
                     this.grappleSpawn.destruct();
+                    
                     
                     
                 }, this);

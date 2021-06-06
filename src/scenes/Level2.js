@@ -117,7 +117,7 @@ class Level2 extends Phaser.Scene {
                 success = true;
                 console.log("Works");
                 this.sound.play('grapple');
-                let grappleSpawn = new Grapple(this, platforms, this.player, pointer.x + (this.cameras.main.scrollX), pointer.y + (this.cameras.main.scrollY), 'placeholder', 0);
+                this.grappleSpawn = new Grapple(this, platforms, this.player, pointer.x + (this.cameras.main.scrollX), pointer.y + (this.cameras.main.scrollY), 'placeholder', 0);
                 this.grappleGroup.add(grappleSpawn);
                 this.player.grappling = true;
                 
@@ -126,11 +126,11 @@ class Level2 extends Phaser.Scene {
                 this.input.on('pointerup', function (pointer) {
                     //grappleSpawn.player.setVelocityY(-this.speed);
                     if(success)
-                        grappleSpawn.player.grappling = false;
-                    grappleSpawn.destruct();
+                        this.player.grappling = false;
+                    this.grappleSpawn.destruct();
                     
                     
-                });
+                },this);
             }
             
 
@@ -174,17 +174,29 @@ class Level2 extends Phaser.Scene {
         }
         if(keyA.isDown) {
             if(!(!this.player.grappling && (this.player.swingLeft || this.player.swingRight))){
-                this.player.setVelocityX(-this.speed * 0.75);
+                if(this.player.grappling){
+                    if(!this.grappleSpawn.blocked){
+                        this.player.setVelocityX(-this.speed * 0.75);
+                    }
+                } else {
+                    this.player.setVelocityX(-this.speed * 0.75);
+                }
             }
-            if(this.player.grappling)
+            if(this.player.grappling && !this.grappleSpawn.blocked)
                 this.player.swingLeft = true;
             this.player.swingRight = false;
         } else if (keyD.isDown) {
             if(!(!this.player.grappling && (this.player.swingLeft || this.player.swingRight))){
-                this.player.setVelocityX(this.speed * 0.75);
+                if(this.player.grappling){
+                    if(!this.grappleSpawn.blocked){
+                        this.player.setVelocityX(this.speed * 0.75);
+                    }
+                } else {
+                    this.player.setVelocityX(this.speed * 0.75);
+                }
             }
             this.player.swingLeft = false;
-            if(this.player.grappling)
+            if(this.player.grappling && !this.grappleSpawn.blocked)
                 this.player.swingRight = true;
         } else {
             this.player.setVelocityX(this.player.body.velocity.x/1.1);
@@ -194,11 +206,5 @@ class Level2 extends Phaser.Scene {
     }
 
 
-    // create functions
-
-    createGrapple(x, y) {
-        let grappleSpawn = new Grapple(this, x, y, 'placeholder', 0);
-        this.grappleGroup.add(grappleSpawn);
-        return grappleSpawn;
-    }
+    
 }

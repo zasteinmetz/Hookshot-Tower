@@ -17,6 +17,7 @@ class Level2 extends Phaser.Scene {
     create(){
         this.MAX_VELOCITY = 300;    //maximum velocity in pixels per second
         this.physics.world.gravity.y = 800;
+        
 
         back_music = this.sound.add('background_music');
         back_music.loop = true;
@@ -96,6 +97,8 @@ class Level2 extends Phaser.Scene {
             }
         });
 
+        this.physics.world.setBounds( 0, 0, level2Map.widthInPixels, level2Map.heightInPixels );
+
         this.cameras.main.setBounds(0, 0, level2Map.widthInPixels, level2Map.heightInPixels);
         //this.cameras.main.zoom = 1.75;
         this.cameras.main.startFollow(this.player, true, 0.25, 0.25);
@@ -119,7 +122,7 @@ class Level2 extends Phaser.Scene {
                 console.log("Works");
                 this.sound.play('grapple');
                 this.grappleSpawn = new Grapple(this, platforms, this.player, pointer.x + (this.cameras.main.scrollX), pointer.y + (this.cameras.main.scrollY), 'placeholder', 0);
-                this.grappleGroup.add(grappleSpawn);
+                this.grappleGroup.add(this.grappleSpawn);
                 this.player.grappling = true;
                 
 
@@ -178,6 +181,8 @@ class Level2 extends Phaser.Scene {
                 if(this.player.grappling){
                     if(!this.grappleSpawn.blocked){
                         this.player.setVelocityX(-this.speed * 0.75);
+                    } else {
+                        this.player.setVelocityX(this.player.body.velocity.x/1.5);
                     }
                 } else {
                     this.player.setVelocityX(-this.speed * 0.75);
@@ -191,6 +196,8 @@ class Level2 extends Phaser.Scene {
                 if(this.player.grappling){
                     if(!this.grappleSpawn.blocked){
                         this.player.setVelocityX(this.speed * 0.75);
+                    } else {
+                        this.player.setVelocityX(this.player.body.velocity.x/1.5);
                     }
                 } else {
                     this.player.setVelocityX(this.speed * 0.75);

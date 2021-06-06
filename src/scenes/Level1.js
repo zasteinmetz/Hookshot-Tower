@@ -17,6 +17,7 @@ class Level1 extends Phaser.Scene {
         this.scene.pause("healthUI");
         this.MAX_VELOCITY = 300;    //maximum velocity in pixels per second
         this.physics.world.gravity.y = 800;
+        
 
         back_music = this.sound.add('background_music');
         back_music.loop = true;
@@ -44,6 +45,8 @@ class Level1 extends Phaser.Scene {
             this.player.y = 32;
             this.player.x = 29 * 32;
         }
+
+        this.physics.world.setBounds( 0, 0, level1Map.widthInPixels, level1Map.heightInPixels );
 
         this.cameras.main.setBounds(0, 0, level1Map.widthInPixels, level1Map.heightInPixels);
         //this.cameras.main.setZoom(1.75);
@@ -120,7 +123,7 @@ class Level1 extends Phaser.Scene {
                     if(!this.grappleSpawn.blocked){
                         this.player.setVelocityX(-this.speed * 0.75);
                     } else {
-                        this.player.setVelocityX(0.0);
+                        this.player.setVelocityX(this.player.body.velocity.x/1.5);
                     }
                 } else {
                     this.player.setVelocityX(-this.speed * 0.75);
@@ -135,7 +138,7 @@ class Level1 extends Phaser.Scene {
                     if(!this.grappleSpawn.blocked){
                         this.player.setVelocityX(this.speed * 0.75);
                     } else {
-                        this.player.setVelocityX(0.0);
+                        this.player.setVelocityX(this.player.body.velocity.x/1.5);
                     }
                 } else {
                     this.player.setVelocityX(this.speed * 0.75);

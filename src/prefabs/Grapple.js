@@ -18,7 +18,7 @@ class Grapple extends Phaser.Physics.Arcade.Sprite {
 
         this.radSlope = 0.0;
         this.length = 200.0;
-        this.minLength = 20.0;
+        this.minLength = 40.0;
         this.maxLength = this.player.ropeLength;
         this.newLine = this.scene.add.line(0,0,this.x,this.y,this.player.x+this.player.width*0.5,this.player.y, 0xcabca5).setOrigin(0,0);
         this.tensionColor = Phaser.Display.Color.GetColor32(255, 60, 60, 0);

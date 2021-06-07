@@ -7,6 +7,8 @@ class Menu extends Phaser.Scene{
     preload(){
         this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
         this.load.image('background', "./assets/prototitle2_.jpg");
+        this.load.audio('background_music','./assets/2021-03-07_-_Haunted_Memories_-_David_Fesliyan.mp3');
+
    }
 
    create(){
@@ -16,6 +18,10 @@ class Menu extends Phaser.Scene{
        // add background
        this.background = this.add.tileSprite(0, 0, 640, 480, 'background').setOrigin(0, 0);
 
+    back_music = this.sound.add('background_music');
+    back_music.loop = true;
+    back_music.play();
+    
        // Google WebFont or whatever
        var add = this.add;
        var inp = this.input;
@@ -62,6 +68,7 @@ class Menu extends Phaser.Scene{
        if(Phaser.Input.Keyboard.JustDown(keyENTER)) {
         //this.scene.start('testScene');
         //this.scene.start('sampleScene');
+        back_music.stop();
 
         //Wakes UI scene
         this.scene.wake("healthUI");

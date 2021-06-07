@@ -4,16 +4,37 @@ class Level2 extends Phaser.Scene {
         super("level2Scene");
     }
     preload(){
-        this.load.image('placeholder', './assets/ObstacleOneCrate.png');
+        this.load.image('placeholder', './assets/Grapple.png');
         this.load.image('towerTileset', "./assets/tilesheet2.png");
         this.load.image('player', './assets/obody.png');
-        this.load.image("bat", "./assets/battexure.png");
+        this.load.atlas("bat", "./assets/battexture.png","./assets/battexture.json");
         this.load.tilemapTiledJSON('Level2TileMap',"./assets/Level2.json");
         this.load.audio('grapple','./assets/splat.wav');
+        this.load.audio('snap','./assets/plunk.wav');
+        this.load.audio('background_music','./assets/2021-03-07_-_Haunted_Memories_-_David_Fesliyan.mp3');
+
     }
     create(){
         this.MAX_VELOCITY = 300;    //maximum velocity in pixels per second
         this.physics.world.gravity.y = 800;
+        
+
+        back_music = this.sound.add('background_music');
+        back_music.loop = true;
+        back_music.play();
+
+        this.anims.create({
+            key: 'fly',
+            frames: this.anims.generateFrameNames("bat", {
+                prefix: "bat",
+                suffix: ".png",
+                start: 1,
+                end: 3,
+                zeroPad: 1
+            }), 
+            repeat: -1,
+            yoyo: true,
+        });
 
         const level2Map = this.add.tilemap('Level2TileMap');
         const towerTiles = level2Map.addTilesetImage("tilesheet2", 'towerTileset');
@@ -57,7 +78,7 @@ class Level2 extends Phaser.Scene {
         });
 
         // Make bat objects that turn when they collide with a platform
-        this.bat01 = new Bat(this, 200, 14 * 32, 'bat').setOrigin(0);
+        this.bat01 = new Bat(this, 200, 14 * 32, 'bat').play('fly');
         this.bat01.collides = true;
         this.batGroup.add(this.bat01);
         // Bat collider to switch movement
@@ -65,7 +86,7 @@ class Level2 extends Phaser.Scene {
             obj1.switchMovement();
         });
 
-        this.bat02 = new Bat(this, 200, 24 * 32, 'bat').setOrigin(0);
+        this.bat02 = new Bat(this, 200, 24 * 32, 'bat').play('fly');
         this.bat02.collides = true;
         this.batGroup.add(this.bat02);
         // Bat collider to switch movement
@@ -105,6 +126,8 @@ class Level2 extends Phaser.Scene {
             }
         });
 
+        this.physics.world.setBounds( 0, 0, level2Map.widthInPixels, level2Map.heightInPixels );
+
         this.cameras.main.setBounds(0, 0, level2Map.widthInPixels, level2Map.heightInPixels);
         //this.cameras.main.zoom = 0.5;
         this.cameras.main.startFollow(this.player, true, 0.25, 0.25);
@@ -127,8 +150,8 @@ class Level2 extends Phaser.Scene {
                 success = true;
                 console.log("Works");
                 this.sound.play('grapple');
-                let grappleSpawn = new Grapple(this, platforms, this.player, pointer.x + (this.cameras.main.scrollX), pointer.y + (this.cameras.main.scrollY), 'placeholder', 0);
-                this.grappleGroup.add(grappleSpawn);
+                this.grappleSpawn = new Grapple(this, platforms, this.player, pointer.x + (this.cameras.main.scrollX), pointer.y + (this.cameras.main.scrollY), 'placeholder', 0);
+                this.grappleGroup.add(this.grappleSpawn);
                 this.player.grappling = true;
                 
 
@@ -136,11 +159,11 @@ class Level2 extends Phaser.Scene {
                 this.input.on('pointerup', function (pointer) {
                     //grappleSpawn.player.setVelocityY(-this.speed);
                     if(success)
-                        grappleSpawn.player.grappling = false;
-                    grappleSpawn.destruct();
+                        this.player.grappling = false;
+                    this.grappleSpawn.destruct();
                     
                     
-                });
+                },this);
             }
             
 
@@ -154,13 +177,16 @@ class Level2 extends Phaser.Scene {
         if(health <= 0){
             this.scene.stop("healthUI");
             health = 7;
+            back_music.stop();
             this.scene.start("gameOverScene");
         }
 
         if (this.player.y >= 30 * 32){
+            back_music.stop();
             this.scene.start("level1Scene");
         }
         if (this.player.y <= 0 ){
+            back_music.stop();
             this.scene.start("winScene");
             this.scene.stop("healthUI");
         }
@@ -183,17 +209,33 @@ class Level2 extends Phaser.Scene {
         }
         if(keyA.isDown) {
             if(!(!this.player.grappling && (this.player.swingLeft || this.player.swingRight))){
-                this.player.setVelocityX(-this.speed * 0.75);
+                if(this.player.grappling){
+                    if(!this.grappleSpawn.blocked){
+                        this.player.setVelocityX(-this.speed * 0.75);
+                    } else {
+                        this.player.setVelocityX(this.player.body.velocity.x/1.5);
+                    }
+                } else {
+                    this.player.setVelocityX(-this.speed * 0.75);
+                }
             }
-            if(this.player.grappling)
+            if(this.player.grappling && !this.grappleSpawn.blocked)
                 this.player.swingLeft = true;
             this.player.swingRight = false;
         } else if (keyD.isDown) {
             if(!(!this.player.grappling && (this.player.swingLeft || this.player.swingRight))){
-                this.player.setVelocityX(this.speed * 0.75);
+                if(this.player.grappling){
+                    if(!this.grappleSpawn.blocked){
+                        this.player.setVelocityX(this.speed * 0.75);
+                    } else {
+                        this.player.setVelocityX(this.player.body.velocity.x/1.5);
+                    }
+                } else {
+                    this.player.setVelocityX(this.speed * 0.75);
+                }
             }
             this.player.swingLeft = false;
-            if(this.player.grappling)
+            if(this.player.grappling && !this.grappleSpawn.blocked)
                 this.player.swingRight = true;
         } else {
             this.player.setVelocityX(this.player.body.velocity.x/1.1);
@@ -203,11 +245,5 @@ class Level2 extends Phaser.Scene {
     }
 
 
-    // create functions
-
-    createGrapple(x, y) {
-        let grappleSpawn = new Grapple(this, x, y, 'placeholder', 0);
-        this.grappleGroup.add(grappleSpawn);
-        return grappleSpawn;
-    }
+    
 }

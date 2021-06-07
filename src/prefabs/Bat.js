@@ -5,6 +5,7 @@ class Bat extends Phaser.Physics.Arcade.Sprite {
         scene.add.existing(this); 
         scene.physics.add.existing(this);
         this.body.allowGravity = false;
+        this.setPushable(false);
         this.speed = 200.0;
         this.moveingLeft = true;
         this.setVelocityX(-this.speed);

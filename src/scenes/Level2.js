@@ -94,7 +94,7 @@ class Level2 extends Phaser.Scene {
             obj1.switchMovement();
         });
 
-        this.bat03 = new Bat(this, (game.config.width * 2) - (32 * 2) , 9 * 32, 'bat').setOrigin(0);
+        this.bat03 = new Bat(this, (game.config.width * 2) - (32 * 2) , 9 * 32, 'bat').play('fly');
         this.bat03.collides = true;
         this.batGroup.add(this.bat03);
         // Bat collider to switch movement
@@ -102,7 +102,7 @@ class Level2 extends Phaser.Scene {
             obj1.switchMovement();
         });
 
-        this.bat04 = new Bat(this, (game.config.width) - (5 * 32), 6 * 32, 'bat').setOrigin(0);
+        this.bat04 = new Bat(this, (game.config.width) - (5 * 32), 6 * 32, 'bat').play('fly');
         this.bat04.collides = true;
         this.batGroup.add(this.bat04);
         // Bat collider to switch movement

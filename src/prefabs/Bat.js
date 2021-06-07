@@ -10,16 +10,6 @@ class Bat extends Phaser.Physics.Arcade.Sprite {
         this.moveingLeft = true;
         this.setVelocityX(-this.speed);
     }
-    // Causes bat to switch directions when colliding with X world bounds 
-    // no longer necessary after added tiles on all sides
-    update() {
-        if(this.x < 0 ){
-            this.setVelocityX(this.speed);
-        }
-        else if( this.x > game.config.width - this.width){
-            this.setVelocityX(-this.speed);
-        }
-    }
 
     // Function that switches the bat's movement to be triggered on collision
     switchMovement(){

@@ -15,6 +15,9 @@ class Level2 extends Phaser.Scene {
 
     }
     create(){
+        //makes sure hearts render on top
+        this.scene.moveBelow("healthUI", "level2Scene");
+        this.scene.pause("healthUI");
         this.MAX_VELOCITY = 300;    //maximum velocity in pixels per second
         this.physics.world.gravity.y = 800;
         
@@ -176,7 +179,10 @@ class Level2 extends Phaser.Scene {
     update(){
         if(health <= 0){
             this.scene.stop("healthUI");
-            health = 7;
+            health = 6;
+            immune = false;
+            console.log('health = ' + health);
+            //this.scene.restart("level2Scene");
             back_music.stop();
             this.scene.start("gameOverScene");
         }
@@ -188,6 +194,7 @@ class Level2 extends Phaser.Scene {
         if (this.player.y <= 0 ){
             back_music.stop();
             this.scene.start("winScene");
+            health = 7;
             this.scene.stop("healthUI");
         }
     

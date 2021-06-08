@@ -14,6 +14,7 @@ class Level1 extends Phaser.Scene {
 
     }
     create(){
+        //this.scene.moveBelow("healthUI", "level1Scene");
         this.scene.pause("healthUI");
         this.MAX_VELOCITY = 300;    //maximum velocity in pixels per second
         this.physics.world.gravity.y = 800;
@@ -98,6 +99,8 @@ class Level1 extends Phaser.Scene {
         if (this.player.y <= 0 ){
             back_music.stop();
             this.scene.start("level2Scene");
+            //resets the move so it doesn't flip back and forth between going on top and not
+            this.scene.moveAbove("healthUI", "level2Scene");
             oneFirstTime = true;
         }
         

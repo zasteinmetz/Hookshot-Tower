@@ -51,8 +51,10 @@ class GameOver extends Phaser.Scene{
    update(){
     if(Phaser.Input.Keyboard.JustDown(keyENTER)) {
         this.scene.launch("healthUI");
-        health = 7;
+        health = 6;
         this.scene.start("level2Scene");
+        //resets the move so it doesn't flip back and forth between going on top and not
+        this.scene.moveAbove("healthUI", "level2Scene");
         }
     }
 }

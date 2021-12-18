@@ -35,6 +35,7 @@ let game = new Phaser.Game(config);
 // Boolean value for whether or not player has passed 
 // through first level for first time
 let oneFirstTime;
+let twoFirstTime = false;
 
 // immune function for damage
 let immune = false;

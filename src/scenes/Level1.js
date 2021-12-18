@@ -14,6 +14,7 @@ class Level1 extends Phaser.Scene {
 
     }
     create(){
+        //this.scene.moveBelow("healthUI", "level1Scene");
         this.scene.pause("healthUI");
         this.MAX_VELOCITY = 300;    //maximum velocity in pixels per second
         this.physics.world.gravity.y = 800;
@@ -35,7 +36,7 @@ class Level1 extends Phaser.Scene {
 
         //Add explanatory text to teach mechanics
         this.firstNote = this.add.text( (6 * 32), (game.config.height * 2) - (4 * 32), 'WASD to move', "28px").setOrigin(0.5);
-        this.secondNote = this.add.text( (10 * 32), (game.config.height * 2) - (9 * 32), 'Click to grapple', "28px").setOrigin(0.5);
+        this.secondNote = this.add.text( (10 * 32), (game.config.height * 2) - (9 * 32), 'Click RMB (Right Mouse Button) on a platform to grapple', "28px").setOrigin(0.5);
 
         this.player = new Player(this, 180, game.config.height * 2 - 64, 200.0, 'player').setOrigin(0);
         this.player.collides = true;
@@ -98,6 +99,8 @@ class Level1 extends Phaser.Scene {
         if (this.player.y <= 0 ){
             back_music.stop();
             this.scene.start("level2Scene");
+            //resets the move so it doesn't flip back and forth between going on top and not
+            this.scene.moveAbove("healthUI", "level2Scene");
             oneFirstTime = true;
         }
         

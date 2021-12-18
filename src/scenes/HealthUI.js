@@ -8,13 +8,16 @@ class HealthUI extends Phaser.Scene{
     }
     create(){
         this.createHearts();
+        if(health >= 7){
+            health = 6;
+        }
     }
 
     update(){
-        console.log(health);
+        //console.log(health);
         //reset health on restart
-        if(health == 7){
-            this.reset();
+        if(health >= 7){
+            //this.reset();
             health = 6;
         }
         if(health <= 0){
@@ -46,13 +49,13 @@ class HealthUI extends Phaser.Scene{
         }
     }
 
-    reset(){
+    /*reset(){
         //make hearts visable again
         console.log("I see you");
         this.heart01.setTexture('hearts','heart.png');
         this.heart02.setTexture('hearts','heart.png');
         this.heart03.setTexture('hearts','heart.png');
-    }
+    } */
 
     //Player create function which might be a little unnecessary all things considered
     createHearts(){

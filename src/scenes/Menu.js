@@ -74,7 +74,7 @@ class Menu extends Phaser.Scene{
         this.scene.wake("healthUI");
         //resets boolean and health variables for fresh restart
         oneFirstTime = false;
-        health = 7;
+        health = 6;
         this.scene.start("level1Scene");
         }
         if(Phaser.Input.Keyboard.JustDown(keyC)) {

@@ -36,7 +36,7 @@ class Level1 extends Phaser.Scene {
 
         //Add explanatory text to teach mechanics
         this.firstNote = this.add.text( (6 * 32), (game.config.height * 2) - (4 * 32), 'WASD to move', "28px").setOrigin(0.5);
-        this.secondNote = this.add.text( (10 * 32), (game.config.height * 2) - (9 * 32), 'Click to grapple', "28px").setOrigin(0.5);
+        this.secondNote = this.add.text( (10 * 32), (game.config.height * 2) - (9 * 32), 'Click RMB (Right Mouse Button) on a platform to grapple', "28px").setOrigin(0.5);
 
         this.player = new Player(this, 180, game.config.height * 2 - 64, 200.0, 'player').setOrigin(0);
         this.player.collides = true;
